@@ -42,7 +42,7 @@ function AllProducts() {
         dispatch(setLaptopIndex(index))
     }
 
-
+    
     const changeMode = useSelector((state) => state.mode)
     console.log('mode in allproducts', changeMode.currentMode)
 
@@ -59,7 +59,7 @@ function AllProducts() {
         cards.forEach((card) => {
             card.style.backgroundColor = '#111827'
         })
-    }
+    } 
 
     if (changeMode.currentMode == 'dark') {
         document.body.style.backgroundColor = '#1e1e1e'
