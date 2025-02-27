@@ -18,6 +18,7 @@ function FullMobiledetails() {
 
         //initailzing the full data to a variable , so we don't need to write the whole i.e, mobilesData.mobilesData?.products[Index]
         fullMobilesData = mobilesData.mobilesData?.products[Index];
+        console.log(fullMobilesData)
     } catch (error) {
         console.log(error)
     }
@@ -38,8 +39,7 @@ function FullMobiledetails() {
                     table.style.color = 'black'
                     table.style.backgroundColor = '#86efac'
                 }
-            
-
+        
         }
 
         if (changeMode.currentMode == 'dark') {

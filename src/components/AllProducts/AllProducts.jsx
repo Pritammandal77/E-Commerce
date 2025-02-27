@@ -47,7 +47,7 @@ function AllProducts() {
     console.log('mode in allproducts', changeMode.currentMode)
 
     if (changeMode.currentMode == 'light') {
-        document.body.style.backgroundColor = 'red'
+        document.body.style.backgroundColor = '#dadada'
         document.body.style.color = 'black'
 
         let headings = document.querySelectorAll('.heading')
