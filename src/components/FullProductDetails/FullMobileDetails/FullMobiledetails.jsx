@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NotFound from '../../NotFound/NotFound';
 import { NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
+import { addToCart, fetchCart, getProductDataFromComponents, setIsItemAdded } from '../../../features/CartFeature/CartFeature';
+
+import Swal from 'sweetalert2'
+import { setPrice, setProductData } from '../../../features/BuyNow/BuyNow';
 
 function FullMobiledetails() {
     let Index, mobilesData, fullMobilesData;
@@ -10,7 +14,6 @@ function FullMobiledetails() {
     try {
         //we are getting the index that we want , getting from MobileSlice.js
         Index = useSelector((state) => state.allMobiles.fullMobiledataIndex)
-        // console.log(Index)
 
         //getting the full data of the mobile
         mobilesData = useSelector((state) => state.allMobiles)
@@ -25,34 +28,21 @@ function FullMobiledetails() {
     const changeMode = useSelector((state) => state.mode)
     console.log('mode in allproducts', changeMode.currentMode)
 
-    let table = document.querySelector('.table')
+    let fullMobileData = document.querySelector(".fullMobileData")
 
     useEffect(() => {
         if (changeMode.currentMode == 'light') {
-            let fullMobileData = document.querySelector(".fullMobileData")
             if (fullMobileData) {
                 fullMobileData.style.backgroundColor = '#dadada'
                 fullMobileData.style.color = 'black'
             }
-                if (table) {
-                    table.style.color = 'black'
-                    table.style.backgroundColor = '#86efac'
-                }
-            
 
         }
 
         if (changeMode.currentMode == 'dark') {
-            let fullMobileData = document.querySelector(".fullMobileData")
-
             if (fullMobileData) {
                 fullMobileData.style.color = 'white'
                 fullMobileData.style.backgroundColor = '#1e1e1e'
-            }
-            if (table) {
-                table.style.color = 'white'
-                table.style.backgroundColor = '#1e1e1e'
-                table.style.border = "2px solid green";
             }
 
         }
@@ -61,7 +51,7 @@ function FullMobiledetails() {
 
     //for viewing full Image 
     const [viewFullMobileImage, setViewFullMobileImage] = useState(null)
-    // let viewFullImage = fullMobilesData.images[0]
+
     const firstImage = () => {
         setViewFullMobileImage(fullMobilesData.images[0])
     }
@@ -73,6 +63,38 @@ function FullMobiledetails() {
     const thirdImage = () => {
         setViewFullMobileImage(fullMobilesData.images[2])
     }
+
+    //To send the product to cartSlice 
+    const dispatch = useDispatch()
+    const addProductToCart = (data) => {
+        console.log('data', data)
+        // dispatch(fetchCart())
+        dispatch(getProductDataFromComponents(data))
+        dispatch(addToCart(data))
+    }
+
+
+    const { isItemAdded } = useSelector((state) => state.cart)
+    console.log("shirt added", isItemAdded)
+
+    //If our item successfully added to cart , then fire an popup
+    if (isItemAdded) {
+        Swal.fire({
+            title: "Item Added To Cart!",
+            icon: "success",
+            draggable: true
+        }).then(() => {
+            dispatch(setIsItemAdded(false)); // Reset After popup is closed
+        });
+    }
+
+    
+    //To send the price of the product to the buyNow page
+    const buyNow = (price , data) => {
+        dispatch(setPrice(price))
+        dispatch(setProductData(data))
+    }
+
     return (
         <>
             {
@@ -80,15 +102,12 @@ function FullMobiledetails() {
                     // true
                     <div className='fullMobileData flex flex-col lg:flex-row '>
                         <div className='w-screen lg:w-1/2 flex overflow-hidden p-5 lg:p-20 justify-center items-center flex-col'>
-                            <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
-
-                                {/* <img src={fullMobilesData.images[0]} alt="" className='w-[50vw] lg:h-100 lg:w-auto' /> */}
-
+                            <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
                                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
                                     <img src={viewFullMobileImage ? (viewFullMobileImage) : (fullMobilesData.images[0])} alt="" className='h-[27vw] lg:h-70 lg:w-auto' />
                                 </div>
                                 <div className=' flex w-[80vw] h-[10vh] justify-between items-center lg:w-1/2 lg:gap-5'>
-                                    <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-amber-300' onClick={firstImage}>
+                                    <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-yellow-300' onClick={firstImage}>
                                         <img src={fullMobilesData.images[0]} alt="" className="h-[7vh]  " />
                                     </div>
                                     <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-yellow-300' onClick={secondImage}>
@@ -99,14 +118,17 @@ function FullMobiledetails() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='h-30 w-[90vw] lg:w-[35vw] flex items-center justify-evenly '>
-                                <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'> <i className="fa-solid fa-cart-shopping"></i>Add To Cart</button>
+                            <div className='bg-gray-900 lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0 '>
+                                <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'
+                                    onClick={() => addProductToCart(fullMobilesData)}>
+                                    <i className="fa-solid fa-cart-shopping"></i>Add To Cart
+                                </button>
                                 <NavLink to='/buynow'>
-                                    <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' > <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                                    <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(fullMobilesData.price, fullMobilesData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
                                 </NavLink>
                             </div>
                         </div>
-                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10 '>
+                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10'>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullMobilesData.title}</p>
                                 <p>{fullMobilesData.description}</p>
@@ -139,35 +161,35 @@ function FullMobiledetails() {
                                     <p className='text-2xl font-bold'> ₹ {Math.floor(fullMobilesData.price * 83)}</p>
                                 </div>
                             </div>
-                            <div className="w-full px-2 sm:px-4 overflow-x-auto">
-                                <table className="table min-w-full text-left bg-green-300 border border-gray-300">
+                            <div className="">
+                                <table className="table min-w-full text-left bg-green-200 border border-gray-300">
                                     <tbody>
                                         <tr>
-                                            <td>Category</td>
+                                            <td className='font-bold'>Category</td>
                                             <td>{fullMobilesData.category}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Brand</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Brand</td>
                                             <td>{fullMobilesData.brand}</td>
                                         </tr>
                                         <tr>
-                                            <td>Return Policy </td>
+                                            <td className='font-bold'>Return Policy </td>
                                             <td>{fullMobilesData.returnPolicy}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Shipping</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Shipping</td>
                                             <td>{fullMobilesData.shippingInformation}</td>
                                         </tr>
                                         <tr>
-                                            <td>Stock</td>
+                                            <td className='font-bold'>Stock</td>
                                             <td>{fullMobilesData.stock > 1 ? ("Available") : ("Not available")}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Warrenty</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Warrenty</td>
                                             <td>{fullMobilesData.warrantyInformation}</td>
                                         </tr>
                                         <tr>
-                                            <td>Weight</td>
+                                            <td className='font-bold'>Weight</td>
                                             <td>{fullMobilesData.weight * 28.3} g</td>
                                         </tr>
                                     </tbody>

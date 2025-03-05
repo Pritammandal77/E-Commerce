@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { handleCreateUser, handleSignInWithGoogle } from '../../../features/Auth/SignUp/SignUp';
 import { auth } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -37,15 +37,13 @@ function SignUp() {
         dispatch(handleSignInWithGoogle())
     }
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                //     console.log(user)
-                //   const uid = user.uid;
-                //   console.log(uid)
-                //   console.log(user.email)
-                //   console.log(user.displayName)
-                //   console.log(user.photoURL)
+                //when user is successfully signed up , he will redirect to homepage
+                navigate('/')
             } else {
                 console.log('user is logged out')
             }
@@ -53,11 +51,27 @@ function SignUp() {
 
     }, [auth]);
 
+    const Mode = useSelector((state) => state.mode.currentMode)
 
+    console.log("mode in signup", Mode)
     console.log(email && "this is email", email)
+
+    let signUpBody = document.querySelector(".signUpBody")
+    if (Mode == 'light') {
+        if (signUpBody) {
+            signUpBody.style.backgroundColor = '#FCA5A5'
+        }
+    }
+
+    if (Mode == 'dark') {
+        if (signUpBody) {
+            signUpBody.style.backgroundColor = '#1e1e1e'
+        }
+    }
+
     return (
         <>
-            <div className='h-screen w-full flex justify-center items-center mt-5 text-white'>
+            <div className='signUpBody h-screen w-full flex justify-center items-center mt-5 text-red '>
                 <div className='h-150 w-280 lg:bg-gray-300 rounded-2xl flex'>
                     <div className='w-1/2 h-full bg-gray-800 rounded-l-2xl hidden lg:flex flex-col items-center justify-center gap-20 '>
                         <div className='text-center'>

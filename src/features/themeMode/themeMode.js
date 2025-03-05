@@ -4,16 +4,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const modeSlice = createSlice({
     name: 'mode',
-    initialState : {
-        currentMode : 'light',
+    initialState: {
+        currentMode: 'light',
     },
-    reducers : {
-        setMode : (state , action) => {
+    reducers: {
+        setMode: (state, action) => {
             state.currentMode = action.payload
         }
     }
 })
 
 
-export const {setMode} = modeSlice.actions
+export const { setMode } = modeSlice.actions
 export default modeSlice.reducer

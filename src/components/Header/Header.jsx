@@ -9,6 +9,9 @@ import { handleLogout } from '../../features/Auth/SignUp/SignUp';
 import { setMode } from '../../features/themeMode/themeMode';
 
 import Swal from 'sweetalert2'
+import { fetchCart } from '../../features/CartFeature/CartFeature';
+import { fetchOrderHistory } from '../../features/Orders/OrderSlice';
+
 
 function Header() {
     const dispatch = useDispatch()
@@ -80,6 +83,9 @@ function Header() {
                 //when a user logged in , they will redirect to home screen after a successful login 
                 // navigate('/')
 
+                //if we have user logged in, then we are fetching the cart , & the users order history
+                dispatch(fetchCart())
+                dispatch(fetchOrderHistory())
             } else {
                 console.log('user is logged out')
             }
@@ -89,16 +95,17 @@ function Header() {
 
     //if user clicks on logout button then dispatch logout
     const handleLogOut = () => {
-        dispatch(handleLogout())
+        dispatch(handleLogout()).then(() => {
+            //popup message , when the user logs out
+            if (isloggedOut == true) {
+                Swal.fire({
+                    title: "Logged Out Successfully",
+                    icon: "success",
+                    draggable: true
+                });
+            }
+        })
 
-        //popup message , when the user logs out
-        if (isloggedOut == true) {
-            Swal.fire({
-                title: "Logged Out Successfully",
-                icon: "success",
-                draggable: true
-            });
-        }
     }
 
     console.log('email', userEmail && userEmail)
@@ -137,6 +144,18 @@ function Header() {
 
     }
 
+    const { items, status, error } = useSelector((state) => state.cart)
+    const { products } = useSelector((state) => state.orders)
+    console.log("length of cart in header", items.length)
+
+    // console.log("items in header", items.length)
+    const [lengthOfCart, setLengthOfCart] = useState(null)
+    const [lengthOfOrder, setLengthOfOrders] = useState(0)
+
+    useEffect(() => {
+        setLengthOfCart(items.length);
+        setLengthOfOrders(products.length)
+    }, [items, products]); // Runs only when `items` changes
 
     return (
         <>
@@ -178,15 +197,14 @@ function Header() {
                             <NavLink to='/searchedproducts'><i className="fa-solid fa-magnifying-glass ml-2 text-xl cursor-pointer"></i></NavLink>
                         </li>
                         <li className=' hidden lg:flex xl:flex gap-2 '>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-                                className='cursor-pointer' /></svg>
-                            <p className='text-white text-xl'>Cart</p>
-                        </li>
-                        {/* <li className='hidden lg:flex xl:flex gap-2'>
-                            <NavLink to='/signup'>
-                                <button className='bg-gray-700 h-10 w-30 text-white rounded-2xl cursor-pointer text-xl'>Login</button>
+                            <NavLink to='/cart' className='flex gap-1'>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+                                    className='cursor-pointer' /></svg>
+                                <p className='text-white text-xl'>Cart</p>
+                                <p className='bg-red-500 px-2 rounded-full text-xl'>{lengthOfCart}</p>
                             </NavLink>
-                        </li> */}
+
+                        </li>
 
                         <li className="iconToOpenHamburger">
                             <i className="fa-solid fa-bars text-[20px] mr-0 cursor-pointer" id='menuIcon' style={{ color: 'white' }} onClick={HandleOpenHamburger}></i>
@@ -197,43 +215,60 @@ function Header() {
                                 <i className="fa-solid fa-xmark text-white xMark self-end mt-5 mr-4 
                                 text-[23px] lg:mr-14 cursor-pointer" onClick={HandleCloseHamburger}></i>
 
-                                <ul className="Hamburgerul flex flex-col w-full gap-5 pl-5 mt-10 lg:pl-10">
+                                <ul className="Hamburgerul flex flex-col w-full gap-6 pl-5 mt-10 lg:pl-10 ">
                                     <li className='self-center'>
                                         <img src={userImage ? (userImage) : ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnFcoNkDNEQ9sXq36dfEj8FZjB4n_X3VFFew&s')} alt="not found"
                                             className='rounded-full w-20' />
                                     </li>
-                                    <li onClick={HandleCloseHamburger} className='self-center'>
+                                    <li onClick={HandleCloseHamburger} className='self-center  flex flex-col justify-center items-center'>
                                         {
                                             isLoggedIn ? (
                                                 <h1 className='text-xl text-white'>Welcome</h1>
                                             ) : (
                                                 <NavLink to='/signup'>
-                                                    <button className='bg-gray-700 h-10 w-30 text-white rounded-2xl cursor-pointer text-xl'>Login</button>
+                                                    <button className='bg-green-400 h-10 w-30 text-black rounded-2xl cursor-pointer text-xl'>Login</button>
                                                 </NavLink>
                                             )
                                         }
-
+                                        <p className='self-center text-white text-xl'>
+                                            {userName ? (userName) : ''}
+                                        </p>
                                     </li>
-                                    <li className='self-center text-white text-xl'>
-                                        {userName ? (userName) : 'How Are You'}
-                                    </li>
-                                    <li className='text-white self-center'>
+                                    <li className='text-white self-center hidden lg:inline'>
                                         {userEmail ? (userEmail) : ('user not found')}
                                     </li>
-                                    <li>
+                                    <li className='mt-5'>
                                         {isLoggedIn ? (
-                                            <button className='bg-gray-700 h-10 w-30 text-white rounded-2xl cursor-pointer text-xl'
+                                            <button className='bg-green-400 text-black font-bold h-10 w-30 rounded-[7px] cursor-pointer text-xl'
                                                 onClick={handleLogOut}>Logout</button>
                                         ) : ("")}
 
                                     </li>
-                                    <li className='flex'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-                                            className='cursor-pointer' /></svg>
-                                        <p className='text-white text-xl'>Cart</p>
+                                    <li onClick={HandleCloseHamburger}>
+                                        <NavLink to='/cart' className='text-white flex items-center gap-2 text-xl'>
+                                            {/* <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+                                                className='cursor-pointer' /></svg> */}
+                                            <i className="fa-solid fa-cart-shopping"></i>
+                                            <p className='text-white text-xl'>Cart</p>
+                                            <p className='bg-red-600 px-2 rounded-full text-xl'>{lengthOfCart}</p>
+                                        </NavLink>
                                     </li>
-                                    <li>
+                                    <li onClick={HandleCloseHamburger}>
+                                        <NavLink to='/orderhistory' className='text-white flex items-center gap-2 text-xl'>
+                                            <i className="fa-solid fa-bag-shopping "></i>
+                                            <p>Orders</p>
+                                            <p className='bg-red-600 px-2 rounded-full text-xl'>{lengthOfOrder}</p>
+                                        </NavLink>
+                                    </li>
+                                    <li onClick={HandleCloseHamburger}>
+                                        <NavLink to='/aboutus' className='text-white flex items-center gap-2 text-xl'>
+                                            <i className="fa-solid fa-info-circle"></i>
+                                            <p>About Us</p>
 
+                                        </NavLink>
+                                    </li>
+                                    <li className='flex gap-2 items-center'>
+                                        <i className="fa-solid fa-circle-half-stroke text-white text-xl"></i>
                                         <div className="theme-popup">
                                             <input type="radio" name="theme" id="default" />
                                             <input type="radio" name="theme" id="light" defaultChecked />
@@ -269,18 +304,6 @@ function Header() {
                                             </label>
                                             <div className="theme-popup__list-container">
                                                 <ul className="theme-popup__list">
-                                                    {/* <li>
-                                                        <label htmlFor="default">
-                                                            <span className="theme-popup__icons">
-                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path fillRule="evenodd" clipRule="evenodd" d="M7.5 2.52267C6.13332 2.64713 4.86254 3.27802 3.9372 4.29146C3.01186 5.3049 2.49882 6.62766 2.49882 8C2.49882 9.37234 3.01186 10.6951 3.9372 11.7085C4.86254 12.722 6.13332 13.3529 7.5 13.4773V2.52267ZM1.5 8C1.5 4.41 4.41 1.5 8 1.5C11.59 1.5 14.5 4.41 14.5 8C14.5 11.59 11.59 14.5 8 14.5C4.41 14.5 1.5 11.59 1.5 8Z" fill="currentColor"></path>
-                                                                </svg>
-                                                            </span>
-                                                            <span>
-                                                                OS Default
-                                                            </span>
-                                                        </label>
-                                                    </li> */}
                                                     <li>
                                                         <label htmlFor="light" onClick={handleLightMode}>
                                                             <span className="theme-popup__icons">

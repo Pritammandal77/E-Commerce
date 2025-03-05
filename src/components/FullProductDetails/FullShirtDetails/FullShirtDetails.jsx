@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NotFound from '../../NotFound/NotFound';
 import { NavLink } from 'react-router-dom';
+import { addToCart, getProductDataFromComponents, setIsItemAdded } from '../../../features/CartFeature/CartFeature';
+import { setPrice, setProductData } from '../../../features/BuyNow/BuyNow';
+import Swal from 'sweetalert2'
 
 function FullShirtDetails() {
 
@@ -15,30 +18,20 @@ function FullShirtDetails() {
         // console.log(shirtsData?.shirtsData?.products[shirtIndex])
         fullShirtsdata = shirtsData?.shirtsData?.products[shirtIndex]
 
-
-
-
-
-
     } catch (error) {
         console.log(error)
     }
 
-
-
     const changeMode = useSelector((state) => state.mode)
 
-    let table = document.querySelector('.table')
+
     let fullShirtData = document.querySelector(".fullShirtData")
+
     if (changeMode.currentMode == 'light') {
         try {
             if (fullShirtData) {
                 fullShirtData.style.backgroundColor = '#dadada'
                 fullShirtData.style.color = 'black'
-                if (table) {
-                    table.style.color = 'black'
-                    table.style.backgroundColor = '#86efac'
-                }
             }
         } catch (error) {
             console.log(error)
@@ -51,11 +44,6 @@ function FullShirtDetails() {
                 fullShirtData.style.color = 'white'
                 fullShirtData.style.backgroundColor = '#1e1e1e'
             }
-            if (table) {
-                table.style.color = 'white'
-                table.style.backgroundColor = '#1e1e1e'
-                table.style.border = "2px solid green";
-            }
 
         } catch (error) {
             console.log(error)
@@ -63,15 +51,9 @@ function FullShirtDetails() {
 
     }
 
-    
+
     //for viewing full Image 
-
     const [viewFullShirtsImage, setViewFullShirtsImage] = useState(null)
-
-    useEffect(() => {
-        // setViewFullShirtsImage(fullShirtsdata.images[0])
-    }, [fullShirtsdata]);
-
 
     const firstShirtImage = () => {
         setViewFullShirtsImage(fullShirtsdata.images[0])
@@ -86,6 +68,35 @@ function FullShirtDetails() {
     }
 
 
+    //To send the product to cartSlice 
+    const dispatch = useDispatch()
+    const addProductToCart = (data) => {
+        console.log('data', data)
+        dispatch(getProductDataFromComponents(data))
+        dispatch(addToCart(data))
+    }
+
+    //To send the price of the product to the buyNow page , & product data to buynow.jsx & then send this product to productData to orderslice to save in the orders
+    const buyNow = (price, productData) => {
+        dispatch(setPrice(price))
+        dispatch(setProductData(productData))
+    }
+
+    const { isItemAdded } = useSelector((state) => state.cart)
+    console.log("item added", isItemAdded)
+
+    //If our item successfully added to cart , then fire an popup
+    if (isItemAdded) {
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Item saved to Cart",
+            showConfirmButton: false,
+            timer: 1200
+        }).then(() => {
+            dispatch(setIsItemAdded(false)); // Reset After popup is closed
+        });
+    }
 
     return (
         <>
@@ -98,7 +109,7 @@ function FullShirtDetails() {
                                     <img src={viewFullShirtsImage ? (viewFullShirtsImage) : (fullShirtsdata.images[0])} alt="" className='h-[27vw] lg:h-70 lg:w-auto' />
                                 </div>
                                 <div className=' flex w-[80vw] h-[10vh] justify-between items-center lg:w-1/2 lg:gap-5'>
-                                    <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-amber-300' onClick={firstShirtImage}>
+                                    <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-yellow-300' onClick={firstShirtImage}>
                                         <img src={fullShirtsdata.images[0]} alt="" className="h-[7vh]  " />
                                     </div>
                                     <div className='w-[22vw] h-[10vh] border flex justify-center items-center rounded-xl bg-yellow-300' onClick={secondShirtImage}>
@@ -110,9 +121,12 @@ function FullShirtDetails() {
                                 </div>
                             </div>
                             <div className='h-30 w-[90vw] lg:w-[35vw] flex items-center justify-evenly '>
-                                <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'> <i className="fa-solid fa-cart-shopping"></i>Add To Cart</button>
+                                <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'
+                                    onClick={() => addProductToCart(fullShirtsdata)}>
+                                    <i className="fa-solid fa-cart-shopping"></i>Add To Cart
+                                </button>
                                 <NavLink to='/buynow'>
-                                    <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' > <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                                    <button className='bg-yellow-500 h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(fullShirtsdata.price, fullShirtsdata)} > <i className="fa-solid fa-money-check"></i> Buy Now</button>
                                 </NavLink>
                             </div>
                         </div>

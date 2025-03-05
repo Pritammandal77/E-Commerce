@@ -67,6 +67,7 @@ import './App.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import Loader from './components/Loader/NormalLoader/Loader'
 import NotFound from './components/NotFound/NotFound'
+// import AboutUs from './components/AboutUs/AboutUs'
 
 const AllProducts = React.lazy(() => import('./components/AllProducts/AllProducts'))
 const Layout = React.lazy(() => import('./Layout'))
@@ -79,6 +80,8 @@ const BuyNow = React.lazy(() => import('./components/BuyNowForm/BuyNow'))
 const SignUp = React.lazy(() => import('./components/Login/SignUp/SignUp'))
 const SignIn = React.lazy(() => import('./components/Login/SignIn/SignIn'))
 const Cart = React.lazy(() => import('./components/Cart/Cart'))
+const OrderHistory = React.lazy(() => import('./components/OrderHistory/OrderHistory'))
+const AboutUs = React.lazy(() => import('./components/AboutUs/AboutUs'))
 
 function App() {
 
@@ -96,7 +99,9 @@ function App() {
         <Route path='/signin' element={<SignIn />}></Route>
         <Route path='/loader' element={<Loader />}></Route>
         <Route path='/notfound' element={<NotFound />}></Route>
-        <Route path='/cart' element={<Cart/>}></Route>
+        <Route path='/cart' element={<Cart />}></Route>
+        <Route path='/orderhistory' element={<OrderHistory />}></Route>
+        <Route path='/aboutus' element={<AboutUs />}></Route>
       </Route>
     )
   )
@@ -104,7 +109,7 @@ function App() {
   return (
 
     <>
-      <Suspense fallback={<Loader/>}>
+      <Suspense fallback={<Loader />}>
         <RouterProvider router={router} />
       </Suspense>
     </>
