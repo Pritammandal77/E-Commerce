@@ -27,14 +27,12 @@ function Footer() {
             <footer className="footer bg-gray-900 text-white py-8 h-auto">
                 <div className="container mx-auto flex justify-between gap-8 px-20
               flex-col lg:flex-row">
-                    {/* About Us */}
                     <div>
                         <h2 className="text-2xl font-bold mb-3">MetaMart</h2>
                         <p>Where Quality Meets Affordability! </p>
                         <p>Your One-Stop Shop for Everything</p>
                     </div>
 
-                    {/* Customer Service */}
                     <div>
                         <h2 className="text-lg font-bold mb-3">Customer Service</h2>
                         <ul className="space-y-2">
@@ -45,7 +43,6 @@ function Footer() {
                         </ul>
                     </div>
 
-                    {/* Contact */}
                     <div>
                         <h2 className="text-lg font-bold mb-3">Contact Me On</h2>
                         <p>Email: pritampmandal@gmail.com</p>

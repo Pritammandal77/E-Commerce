@@ -30,6 +30,8 @@ function SearchedProducts() {
   if (changeMode.currentMode == 'light') {
     searchedProduct.forEach((product) => {
       product.style.backgroundColor = '#efefef'
+      product.style.color = 'black'
+      
     })
   }
 

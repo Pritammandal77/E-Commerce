@@ -7,6 +7,8 @@ import searchProductReducer from '../features/SearchProducts/SearchProductSlice'
 import  authSliceReducer  from '../features/Auth/SignUp/SignUp';
 import { modeSlice } from '../features/themeMode/themeMode';
 import { cartSlice } from '../features/CartFeature/CartFeature';
+import { buyNowSlice } from '../features/BuyNow/BuyNow';
+import { orderSlice } from '../features/Orders/OrderSlice';
 // import { signInSlice } from '../features/Auth/SignIn/SignIn';
 
 const store = configureStore({
@@ -17,7 +19,9 @@ const store = configureStore({
         searchProduct : searchProductReducer,
         auth : authSliceReducer,
         mode : modeSlice.reducer,
-        cart : cartSlice.reducer
+        cart : cartSlice.reducer,
+        buyNow : buyNowSlice.reducer,
+        orders : orderSlice.reducer
     }
 })
 

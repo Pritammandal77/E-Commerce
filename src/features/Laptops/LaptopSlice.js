@@ -8,7 +8,7 @@ export const fetchLaptops = createAsyncThunk('fetchLaptops', async () => {
     }
     return response.json();
 });
- 
+
 // Slice for shirts
 export const allLaptopsSlice = createSlice({
     name: 'shirts',

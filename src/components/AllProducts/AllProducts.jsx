@@ -33,12 +33,10 @@ function AllProducts() {
     }
 
     const handleSendShirtsIndex = (index) => {
-        // console.log(index)
         dispatch(setShirtIndex(index))
     }
 
     const handleSendLaptopsIndex = (index) => {
-        // console.log(index)
         dispatch(setLaptopIndex(index))
     }
 
@@ -83,15 +81,15 @@ function AllProducts() {
             <div className='flex flex-col py-10 gap-20'>
                 <div className='flex flex-col gap-8'>
                     <h1 className='heading ml-5 md:ml-8 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Mobile Phones</h1>
-                    <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-6">
+                    <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6">
                         {
                             mobilesData.mobilesData?.products ? (
                                 mobilesData.mobilesData.products.map((data) => (
                                     <NavLink to='/fullmobiledetails' key={data.id}>
-                                        <div className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-60 xl:w-55 xl:h-60 flex flex-col rounded-2xl bg-gray-900 text-white'
+                                        <div className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-55 xl:h-60 flex flex-col rounded-2xl bg-gray-900 text-white'
                                             onClick={() => handleSendComputerIndex(mobilesData.mobilesData.products.indexOf(data))}
                                         >
-                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-60 xl:w-55 bg-white'>
+                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-55 bg-white'>
                                                 <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
                                             </div>
                                             <div className='p-5 h-25 flex flex-col justify-evenly'>
@@ -120,9 +118,9 @@ function AllProducts() {
                             shirtsData.products ? (
                                 shirtsData.products.map((data) => (
                                     <NavLink to='/fullshirtsdetails' key={data.id}>
-                                        <div key={data.id} className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-60 flex flex-col rounded-2xl bg-gray-900 text-white'
+                                        <div key={data.id} className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 flex flex-col rounded-2xl bg-gray-900 text-white'
                                             onClick={() => handleSendShirtsIndex(shirtsData.products.indexOf(data))}>
-                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-60  bg-white'>
+                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60  bg-white'>
                                                 <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
                                             </div>
                                             <div className='p-5 h-25 flex flex-col justify-evenly'>
@@ -149,10 +147,10 @@ function AllProducts() {
                             laptopsData.LaptopsData.products ? (
                                 laptopsData.LaptopsData.products.map((data) => (
                                     <NavLink to='/fulllaptopdetails' key={data.id}>
-                                        <div key={data.id} className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-60 flex flex-col rounded-2xl bg-gray-900 text-white'
+                                        <div key={data.id} className='products-div w-[40vw] h-[20vh] md:h-[20vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 flex flex-col rounded-2xl bg-gray-900 text-white'
                                             onClick={() => handleSendLaptopsIndex(laptopsData.LaptopsData.products.indexOf(data))}
                                         >
-                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-60  bg-white'>
+                                            <div className='h-[25vh] flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60  bg-white'>
                                                 <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
                                             </div>
                                             <div className="p-5 h-25 flex flex-col justify-evenly">
