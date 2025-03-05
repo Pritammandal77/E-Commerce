@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart, removeFromCart } from '../../features/CartFeature/CartFeature';
 import Loader from '../Loader/NormalLoader/Loader';
 import { NavLink } from 'react-router-dom';
-import { setPrice } from '../../features/BuyNow/BuyNow';
+import { setPrice, setProductData } from '../../features/BuyNow/BuyNow';
 
 function Cart() {
 
@@ -22,11 +22,11 @@ function Cart() {
   let totalPrice = 0;
   let priceBuyNow = 0;
   for (let i = 0; i < items.length; i++) {
-    console.log(items[i]?.price)
-    if (items[i]?.price) {
-      totalPrice = Math.floor(totalPrice + items[i].price * 83)
+    console.log(items[i]?.product.price)
+    if (items[i]?.product.price) {
+      totalPrice = Math.floor(totalPrice + items[i].product.price * 83)
       console.log("totalPrice", totalPrice)
-      priceBuyNow = priceBuyNow + items[i].price
+      priceBuyNow = priceBuyNow + items[i].product.price
     }
   }
 
@@ -35,12 +35,7 @@ function Cart() {
     console.log(data.id)
   }
 
-  //To send the price of the product to the buyNow page
-  const buyNow = (price) => {
-    dispatch(setPrice(price))
-  }
 
-  
   const changeMode = useSelector((state) => state.mode)
 
   let cartBody = document.querySelector('.cartBody')
@@ -55,7 +50,7 @@ function Cart() {
     }
 
     if (changeMode.currentMode == 'dark') {
-      if(cartBody){
+      if (cartBody) {
         cartBody.style.color = 'black'
         cartBody.style.backgroundColor = '#1e1e1e'
         cartHeading.style.color = 'white'
@@ -65,6 +60,16 @@ function Cart() {
 
   }, [changeMode.currentMode]);
 
+  //To send the price of the product to the buyNow page
+  const buyNowItem = (price, data) => {
+    dispatch(setPrice(price))
+    dispatch(setProductData(data))
+  }
+
+ //To send the price of the all products to the buyNow page
+ const buyAllProducts = (price) => {
+  dispatch(setPrice(price))
+}
 
   return (
     <>
@@ -76,17 +81,23 @@ function Cart() {
               <div className='searchedProduct w-[90vw] h-auto flex items-center flex-col ' key={data.id}>
                 <div className='h-auto w-[90vw] lg:h-50 lg:w-[70vw] flex items-center bg-yellow-200 rounded-2xl' >
                   <div className='w-[35vw] lg:w-[14vw] lg:h-50 flex items-center justify-center bg-blue-200 rounded-l-2xl'>
-                    <img src={data.image[0]} alt="" className='h-35  xl:h-[20vh] xl:w-auto ' />
+                    <img src={data.product.images[0]} alt="" className='h-35  xl:h-[20vh] xl:w-auto ' />
                   </div>
                   <div className='lg:ml-10 ml-3 flex flex-col gap-1  w-[40vw]'>
-                    <p className='text-l lg:text-xl font-bold'>{data.name}</p>
-                    <p className='text-l lg:text-xl font-bold'>{Math.floor(data.price * 83)} ₹ </p>
-                    <p className=' hidden text-s xl:flex'>{data.description}</p>
+                    <p className='text-l lg:text-xl font-bold'>{data.product.title}</p>
+                    <p className='text-l lg:text-xl font-bold'>{Math.floor(data.product.price * 83)} ₹ </p>
+                    <p className=' hidden text-s xl:flex'>{data.product.description}</p>
                   </div>
 
-                  <div className='relative right-2 lg:right-5 font-medium  lg:ml-10'>
+                  <div className='relative right-2 lg:right-5 font-medium lg:ml-10 flex flex-col gap-2'>
                     <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer'
                       onClick={() => RemoveItemFromCart(data)}>Remove Item</button>
+
+                    <NavLink to='/buynow'>
+                      <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer'
+                        onClick={() => buyNowItem(data.product.price, data.product)}> Buy Now</button>
+                    </NavLink>
+
                   </div>
                 </div>
               </div>
@@ -102,7 +113,7 @@ function Cart() {
             <p>₹ {totalPrice}</p>
           </div>
           <NavLink to='/buynow' className='lg:mr-20'>
-            <button className='bg-green-400 px-4 py-2 text-black rounded-[7px]' onClick={buyNow(priceBuyNow)}>Order Now</button>
+            <button className='bg-green-400 px-4 py-2 text-black rounded-[7px]' onClick={buyAllProducts(priceBuyNow)}>Order Now</button>
           </NavLink>
         </div>
       </div>

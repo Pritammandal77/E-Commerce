@@ -41,12 +41,13 @@ export const addToCart = createAsyncThunk("cart/addToCart", async (product, thun
 
         } else {
             const cartItem = {
-                name: product.title,
-                price: product.price,
-                image: product.images,
-                quantity: 1,
-                description: product.description,
-                category: product.category || "uncategorized",
+                // name: product.title,
+                // price: product.price,
+                // image: product.images,
+                // quantity: 1,
+                // description: product.description,
+                // category: product.category || "uncategorized",
+                product : product,
             };
 
             await setDoc(productRef, cartItem);
