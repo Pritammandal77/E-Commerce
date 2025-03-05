@@ -40,7 +40,6 @@ function Cart() {
     dispatch(setPrice(price))
   }
 
-
   
   const changeMode = useSelector((state) => state.mode)
 
