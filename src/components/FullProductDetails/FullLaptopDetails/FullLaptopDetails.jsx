@@ -15,7 +15,7 @@ function FullLaptopDetails() {
         // console.log(LaptopsIndex)
 
         laptopsData = useSelector((state) => state.allLaptops.LaptopsData)
-        console.log(laptopsData.products[LaptopsIndex])
+        // console.log(laptopsData.products[LaptopsIndex])
 
         fullLaptopsData = laptopsData.products[LaptopsIndex];
 
@@ -25,7 +25,7 @@ function FullLaptopDetails() {
 
 
     const changeMode = useSelector((state) => state.mode)
-    console.log('mode in allproducts', changeMode.currentMode)
+    // console.log('mode in allproducts', changeMode.currentMode)
 
 
     let fullLaptopData = document.querySelector(".fullLaptopData")
@@ -63,7 +63,7 @@ function FullLaptopDetails() {
     //To send the product to cartSlice , and save to cart
     const dispatch = useDispatch()
     const addProductToCart = (data) => {
-        console.log('data', data)
+        // console.log('data', data)
         dispatch(getProductDataFromComponents(data))
         dispatch(addToCart(data))
     }
@@ -75,23 +75,23 @@ function FullLaptopDetails() {
         dispatch(setProductData(productData))
     }
 
-        const { isItemAdded } = useSelector((state) => state.cart)
-        console.log("item added", isItemAdded)
-    
-        //If our item successfully added to cart , then fire an popup
-        if (isItemAdded) {
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Item saved to Cart",
-                showConfirmButton: false,
-                timer: 1200
-            }).then(() => {
-                dispatch(setIsItemAdded(false)); // Reset After popup is closed
-            });
-        }
+    const { isItemAdded } = useSelector((state) => state.cart)
+    console.log("item added", isItemAdded)
 
-        
+    //If our item successfully added to cart , then fire an popup
+    if (isItemAdded) {
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Item saved to Cart",
+            showConfirmButton: false,
+            timer: 1200
+        }).then(() => {
+            dispatch(setIsItemAdded(false)); // Reset After popup is closed
+        });
+    }
+
+
     return (
         <>
             {
@@ -115,17 +115,17 @@ function FullLaptopDetails() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='h-30 w-[90vw] lg:w-[35vw] flex items-center justify-evenly '>
-                                <button className='bg-yellow-500 text-black h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2'
+                            <div className='bg-gray-900 lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0'>
+                                <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'
                                     onClick={() => addProductToCart(fullLaptopsData)}>
                                     <i className="fa-solid fa-cart-shopping"></i>Add To Cart
                                 </button>
                                 <NavLink to='/buynow'>
-                                    <button className='bg-yellow-500 text-black h-13 w-45 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2' onClick={buyNow(fullLaptopsData.price, fullLaptopsData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                                    <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(fullLaptopsData.price, fullLaptopsData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
                                 </NavLink>
                             </div>
                         </div>
-                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10 '>
+                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 md:px-20 flex flex-col gap-10 '>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullLaptopsData.title}</p>
                                 <p>{fullLaptopsData.description}</p>
@@ -159,37 +159,38 @@ function FullLaptopDetails() {
                                 </div>
                             </div>
                             <div className="w-full px-2 sm:px-4 overflow-x-auto">
-                                <table className="table min-w-full text-left border border-yellow-300 bg-green-300">
+                                <table className="table min-w-full text-left bg-green-200 border border-gray-300">
                                     <tbody>
                                         <tr>
-                                            <td>Category</td>
+                                            <td className='font-bold'>Category</td>
                                             <td>{fullLaptopsData.category}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Brand</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Brand</td>
                                             <td>{fullLaptopsData.brand}</td>
                                         </tr>
                                         <tr>
-                                            <td>Return Policy </td>
+                                            <td className='font-bold'>Return Policy </td>
                                             <td>{fullLaptopsData.returnPolicy}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Shipping</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Shipping</td>
                                             <td>{fullLaptopsData.shippingInformation}</td>
                                         </tr>
                                         <tr>
-                                            <td>Stock</td>
+                                            <td className='font-bold'>Stock</td>
                                             <td>{fullLaptopsData.stock > 1 ? ("Available") : ("Not available")}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Warrenty</td>
+                                        <tr className='bg-gray-100'>
+                                            <td className='font-bold'>Warrenty</td>
                                             <td>{fullLaptopsData.warrantyInformation}</td>
                                         </tr>
                                         <tr>
-                                            <td>Weight</td>
+                                            <td className='font-bold'>Weight</td>
                                             <td>{fullLaptopsData.weight * 28.3} g</td>
                                         </tr>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>

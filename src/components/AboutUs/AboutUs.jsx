@@ -3,46 +3,61 @@ import React from 'react';
 function AboutUs() {
     return (
         <>
-            <div className="max-w-4xl mx-auto p-6 mt-14 text-justify">
-                <h1 className="text-3xl font-bold">About MetaMart</h1>
-                <p className="text-lg text-gray-700 mb-4">
-                    <strong>MetaMart</strong> is a modern eCommerce platform built with React.js, designed to provide a smooth and user-friendly shopping experience. This app allows users to explore various products, search product according to their choice , add items to their cart, and manage their purchases effortlessly.
-                </p>
+            <div className=" mt-14 text-justify flex flex-col gap-20 lg:gap-0 bg-green-100">
 
-                <p>
-                    This website is created only for learning purpose , all the products in this website are facebook
-                </p>
-                <h2 className="text-2xl font-semibold mt-6">Tech Stack</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li><strong>Frontend:</strong> React.js, Redux.js ,Tailwind CSS</li>
-                    <li><strong>API:</strong> Dummy JSON API for product data</li>
-                    <li><strong>Backend:</strong> Firebase (for authentication & database)</li>
-                </ul>
+                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20'>
+                    <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 lg:pl-20'>
+                        <h1 className="text-5xl font-bold self-start">About MetaMart</h1>
+                        <p className="text-xl text-gray-800 mb-4">
+                            <strong>MetaMart</strong> is a modern eCommerce platform built with React.js & Firebase , designed to provide a smooth and user-friendly shopping experience. This app allows users to explore various products, search product according to their choice , Login & logout feature , add items to their cart saved on cloud firestore, Order Products & view order history and manage their purchases effortlessly .
+                            <br />   This website is created only for learning purpose , all the products in this website are fake , the prodcts are from dummyJSON API
+                        </p>
+                    </div>
+                    <div className='w-[80vw] h-[40vh] lg:height-auto lg:w-[40vw] flex justify-center items-center '>
+                        <img src="aboutPage1.svg" alt="image not found" className='h-100' />
+                    </div>
+                </div>
 
-                <h2 className="text-2xl font-semibold mt-6">Key Features</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Browse and search products</li>
-                    <li>Firebase authentication (Login/Signup)</li>
-                    <li>Add products to the cart</li>
-                    <li>View product details</li>
-                    <li>Order Products</li>
-                    <li>Can view order history</li>
-                    <li>Dark & light mode</li>
-                    <li>Dynamic UI with smooth user interactions</li>
-                    <li>Responsive design for all devices</li>
-                    
-                </ul>
 
-                <h2 className="text-2xl font-semibold mt-6">Future Enhancements</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Wishlist feature</li>
-                    <li>Order history and checkout functionality</li>
-                    <li>Real-time database for user and order management</li>
-                </ul>
+                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20'>
+                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[50vw] lg:flex justify-center items-center '>
+                        <img src="techStack.svg" alt="" className='h-100' />
+                    </div>
+                    <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 '>
+                        <h1 className="text-4xl font-bold">Tech Stack</h1>
+                        <ul className="list-disc pl-6 text-gray-800 text-[19px]">
+                            <li><strong>Frontend:</strong> React.js, Redux.js ,Tailwind CSS</li>
+                            <li><strong>API:</strong> Dummy JSON API for product data</li>
+                            <li><strong>Backend:</strong> Firebase (for authentication & database)</li>
+                            <li> <b>Others</b> : font awesome icon , uiverse.io</li>
+                        </ul>
+                    </div>
 
-                <p className="text-lg text-gray-700 mt-6">
+                </div>
+
+                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20'>
+                    <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 '>
+                        <h1 className="text-4xl font-bold ">Key Features</h1>
+                        <ul className="list-disc pl-6 text-gray-800 text-[19px]">
+                            <li>Browse and search products</li>
+                            <li>Firebase authentication (Login/Signup)</li>
+                            <li>Add products to the cart</li>
+                            <li>View product details</li>
+                            <li>Order Products</li>
+                            <li>Can view order history</li>
+                            <li>Dark & light mode</li>
+                            <li>Dynamic UI with smooth user interactions</li>
+                            <li>Responsive design for all devices</li>
+                        </ul>
+                    </div>
+                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[50vw] lg:flex justify-center items-center '>
+                        <img src="features.svg" alt="image not found" className='h-100' />
+                    </div>
+                </div>
+
+                {/* <p className="text-lg text-gray-700 mt-6">
                     MetaMart is a personal project aimed at improving my frontend and backend development skills while providing an engaging shopping experience for users. 🚀
-                </p>
+                </p> */}
             </div>
         </>
     );

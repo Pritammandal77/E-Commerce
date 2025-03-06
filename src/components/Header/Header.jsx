@@ -25,7 +25,7 @@ function Header() {
     let value;
     const handleChange = (e) => {
         value = e.target.value
-        console.log(value)
+        // console.log(value)
         dispatch(setQuery(value))
     }
 
@@ -56,8 +56,8 @@ function Header() {
         hamburgerDiv.style.display = "none";
     }
 
-    console.log("isloggedOut", isloggedOut)
-    console.log("User :- ", user)
+    // console.log("isloggedOut", isloggedOut)
+    // console.log("User :- ", user)
 
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -71,10 +71,10 @@ function Header() {
             if (user) {
                 console.log(user)
                 const uid = user.uid;
-                console.log(uid)
-                console.log(user.email)
-                console.log(user.displayName)
-                console.log(user.photoURL)
+                // console.log(uid)
+                // console.log(user.email)
+                // console.log(user.displayName)
+                // console.log(user.photoURL)
                 setUserImage(user.photoURL)
                 setUserEmail(user.email)
                 setIsLoggedIn(true)
@@ -108,7 +108,7 @@ function Header() {
 
     }
 
-    console.log('email', userEmail && userEmail)
+    // console.log('email', userEmail && userEmail)
 
 
     //code for setting modes
@@ -122,7 +122,7 @@ function Header() {
 
     //we are getting the state of mode from our mode store
     const changeMode = useSelector((state) => state.mode)
-    console.log('mode', changeMode.currentMode)
+    // console.log('mode', changeMode.currentMode)
 
     if (changeMode.currentMode == 'light') {
         let header = document.querySelector('.header')
@@ -146,7 +146,7 @@ function Header() {
 
     const { items, status, error } = useSelector((state) => state.cart)
     const { products } = useSelector((state) => state.orders)
-    console.log("length of cart in header", items.length)
+    // console.log("length of cart in header", items.length)
 
     // console.log("items in header", items.length)
     const [lengthOfCart, setLengthOfCart] = useState(null)

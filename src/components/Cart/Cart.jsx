@@ -11,9 +11,9 @@ function Cart() {
   const { items, status, error } = useSelector((state) => state.cart)
 
   // console.log(items, status)
-  console.log("length of cart", items.length)
+  // console.log("length of cart", items.length)
 
-  console.log("items in cart", items)
+  // console.log("items in cart", items)
 
   useEffect(() => {
     dispatch(fetchCart());
@@ -22,10 +22,10 @@ function Cart() {
   let totalPrice = 0;
   let priceBuyNow = 0;
   for (let i = 0; i < items.length; i++) {
-    console.log(items[i]?.product.price)
+    // console.log(items[i]?.product.price)
     if (items[i]?.product.price) {
       totalPrice = Math.floor(totalPrice + items[i].product.price * 83)
-      console.log("totalPrice", totalPrice)
+      // console.log("totalPrice", totalPrice)
       priceBuyNow = priceBuyNow + items[i].product.price
     }
   }
@@ -66,10 +66,10 @@ function Cart() {
     dispatch(setProductData(data))
   }
 
- //To send the price of the all products to the buyNow page
- const buyAllProducts = (price) => {
-  dispatch(setPrice(price))
-}
+  //To send the price of the all products to the buyNow page , while dispatching this setPrice , we are getting an error in the console
+  const buyAllProducts = (price) => {
+    // dispatch(setPrice(price))           
+  }
 
   return (
     <>
@@ -90,12 +90,14 @@ function Cart() {
                   </div>
 
                   <div className='relative right-2 lg:right-5 font-medium lg:ml-10 flex flex-col gap-2'>
-                    <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer'
-                      onClick={() => RemoveItemFromCart(data)}>Remove Item</button>
+                    <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
+                      onClick={() => RemoveItemFromCart(data)}>
+                        <i className="fa-solid fa-trash"></i> Remove </button>
 
                     <NavLink to='/buynow'>
-                      <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer'
-                        onClick={() => buyNowItem(data.product.price, data.product)}> Buy Now</button>
+                      <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
+                        onClick={() => buyNowItem(data.product.price, data.product)}>
+                        <i className="fa-solid fa-money-check"></i>  Buy Now</button>
                     </NavLink>
 
                   </div>

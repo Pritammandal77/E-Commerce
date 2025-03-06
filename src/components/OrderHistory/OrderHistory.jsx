@@ -5,7 +5,7 @@ import { fetchOrderHistory } from '../../features/Orders/OrderSlice';
 function OrderHistory() {
 
     const { products } = useSelector((state) => state.orders)
-    console.log("products in product history", typeof products)
+    // console.log("products in product history", typeof products)
 
     const dispatch = useDispatch()
     useEffect(() => {
