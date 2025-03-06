@@ -9,7 +9,7 @@ function BuyNow() {
 
 
     const changeMode = useSelector((state) => state.mode)
-    console.log('mode in allproducts', changeMode.currentMode)
+    // console.log('mode in allproducts', changeMode.currentMode)
 
     let buyNowPage = document.querySelector(".buyNowPage")
     let buyNowForm = document.querySelector(".buyNowForm")
@@ -48,8 +48,8 @@ function BuyNow() {
 
 
     const { price, productData } = useSelector((state) => state.buyNow)
-    console.log('price of that item', price)
-    console.log('product for buy now', productData)
+    // console.log('price of that item', price)
+    // console.log('product for buy now', productData)
 
     const platFormFee = 19;
     const extraFees = 29;

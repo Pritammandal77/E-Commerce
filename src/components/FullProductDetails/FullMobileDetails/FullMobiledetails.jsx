@@ -26,7 +26,7 @@ function FullMobiledetails() {
     }
 
     const changeMode = useSelector((state) => state.mode)
-    console.log('mode in allproducts', changeMode.currentMode)
+    // console.log('mode in allproducts', changeMode.currentMode)
 
     let fullMobileData = document.querySelector(".fullMobileData")
 
@@ -128,7 +128,7 @@ function FullMobiledetails() {
                                 </NavLink>
                             </div>
                         </div>
-                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10'>
+                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 md:px-20 flex flex-col gap-10'>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullMobilesData.title}</p>
                                 <p>{fullMobilesData.description}</p>

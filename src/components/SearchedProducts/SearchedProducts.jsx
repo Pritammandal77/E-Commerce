@@ -45,7 +45,7 @@ function SearchedProducts() {
 
   return (
     <>
-      <div className='searchedProductPage py-10 lg:p-20 mt-10 md:mt-0 flex flex-col justify-center items-center gap-3 lg:gap-0'>
+      <div className='searchedProductPage py-10 lg:p-20 mt-10 md:mt-10 flex flex-col justify-center items-center gap-3 lg:gap-0'>
         {
           SearchProducts.products ? (
             SearchProducts.products.map((data) => (
