@@ -4,11 +4,13 @@ import { fetchSearchProducts, setSearchedDataIndex } from '../../features/Search
 import { NavLink } from 'react-router-dom';
 import './SearchedProducts.css'
 import NotFound from '../NotFound/NotFound';
+import Loader from '../Loader/NormalLoader/Loader';
 
 function SearchedProducts() {
 
   const { isloading, SearchProducts, isError, query } = useSelector((state) => state.searchProduct)
-  // console.log(SearchProducts.products)
+  console.log("Searched Product is", SearchProducts.products)
+  console.log("Searched Product is", SearchProducts.products?.length)
   // console.log(query)
   const dispatch = useDispatch()
 
@@ -31,7 +33,7 @@ function SearchedProducts() {
     searchedProduct.forEach((product) => {
       product.style.backgroundColor = '#efefef'
       product.style.color = 'black'
-      
+
     })
   }
 
@@ -45,9 +47,9 @@ function SearchedProducts() {
 
   return (
     <>
-      <div className='searchedProductPage py-10 lg:p-20 mt-10 md:mt-10 flex flex-col justify-center items-center gap-3 lg:gap-0'>
+      <div className='searchedProductPage py-10 min-h-[100vh] lg:p-20 mt-10 md:mt-10 flex flex-col justify-center items-center gap-3 lg:gap-0'>
         {
-          SearchProducts.products ? (
+          SearchProducts.products?.length >= 1 ? (
             SearchProducts.products.map((data) => (
               <NavLink to='/fullsearchedproductdetails' key={data.id}>
                 <div className='searchedProduct w-[90vw] h-auto flex items-center flex-col' onClick={() => handleSendFullDataIndex(SearchProducts.products.indexOf(data))}>
@@ -65,7 +67,15 @@ function SearchedProducts() {
               </NavLink>
             ))
           ) : (
-            <NotFound />
+            SearchProducts.products?.length == 0 ? (
+              <div>
+                <h1 className='text-4xl font-bold'>No Products Found 💩</h1>
+                <h2 className='text-3xl font-bold'>Please Search Some Another Products 😅😅 !! </h2>
+              </div>
+
+            ) : (
+              <h1>Loading ...</h1>
+            )
           )
         }
       </div>
