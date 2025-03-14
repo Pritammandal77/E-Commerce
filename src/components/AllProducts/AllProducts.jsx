@@ -56,11 +56,12 @@ function AllProducts() {
         let cards = document.querySelectorAll(".products-div")
         cards.forEach((card) => {
             card.style.backgroundColor = '#111827'
+            card.style.color = "white"
         })
     } 
 
     if (changeMode.currentMode == 'dark') {
-        document.body.style.backgroundColor = '#1e1e1e'
+        document.body.style.backgroundColor = '#1d1d1d'
         document.body.style.color = 'white'
 
         let cards = document.querySelectorAll(".products-div")
@@ -78,10 +79,11 @@ function AllProducts() {
     return (
         <>
             <ImageSlider />
-            <div className='flex flex-col py-10 gap-20'>
+            <div className='flex flex-col py-10 gap-20 items-center '>
+
                 <div className='flex flex-col gap-8'>
-                    <h1 className='heading ml-5 md:ml-8 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Mobile Phones</h1>
-                    <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-5">
+                    <h1 className='heading ml-10 md:ml-8 text-3xl font md:text-5xl lg:text-6xl lg:ml-20'>Mobile Phones</h1>
+                    <div className="mainBody grid gap-10 grid-cols-2 mx-7 sm:grid-cols-3  md:mx-10  md:grid-cols-4 xl:grid-cols-5">
                         {
                             mobilesData.mobilesData?.products ? (
                                 mobilesData.mobilesData.products.map((data) => (
@@ -111,7 +113,7 @@ function AllProducts() {
 
 
                 <div className='flex flex-col gap-8'>
-                    <h1 className='heading ml-5 md:ml-8 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Shirts</h1>
+                    <h1 className='heading ml-5 md:ml-10 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Shirts</h1>
                     <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-5">
 
                         {
@@ -141,7 +143,7 @@ function AllProducts() {
                 </div>
 
                 <div className='flex flex-col gap-8'>
-                    <h1 className='heading ml-5 md:ml-8 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Laptops</h1>
+                    <h1 className='heading ml-10 md:ml-8 text-3xl md:text-5xl lg:text-6xl lg:ml-20'>Laptops</h1>
                     <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-5">
                         {
                             laptopsData.LaptopsData.products ? (

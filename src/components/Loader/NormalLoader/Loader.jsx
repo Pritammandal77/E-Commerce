@@ -1,24 +1,27 @@
 import React from 'react';
 import './Loader.css'
+import { useSelector } from 'react-redux';
 
 function Loader() {
+
+    const currentMode = useSelector((state) => state.mode.currentMode)
+
     return (
         <>
-            <div className='h-screen w-[100vw] flex items-center justify-center'>
-
+            <div className='h-screen w-screen lg:w-[97vw] flex items-center justify-center'>
                 <div className="loader">
-                    <div className="bar1"></div>
-                    <div className="bar2"></div>
-                    <div className="bar3"></div>
-                    <div className="bar4"></div>
-                    <div className="bar5"></div>
-                    <div className="bar6"></div>
-                    <div className="bar7"></div>
-                    <div className="bar8"></div>
-                    <div className="bar9"></div>
-                    <div className="bar10"></div>
-                    <div className="bar11"></div>
-                    <div className="bar12"></div>
+                    <div className={`bar1  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar2 ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar3  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar4  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar5  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar6  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar7  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar8  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar9  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar10  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar11  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
+                    <div className={`bar12  ${currentMode == 'dark' ? 'bg-[white]' : 'bg-black'}`}></div>
                 </div>
             </div>
 

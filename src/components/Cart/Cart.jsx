@@ -4,6 +4,7 @@ import { fetchCart, removeFromCart } from '../../features/CartFeature/CartFeatur
 import Loader from '../Loader/NormalLoader/Loader';
 import { NavLink } from 'react-router-dom';
 import { setPrice, setProductData } from '../../features/BuyNow/BuyNow';
+import { toast } from 'react-toastify';
 
 function Cart() {
 
@@ -11,9 +12,9 @@ function Cart() {
   const { items, status, error } = useSelector((state) => state.cart)
 
   // console.log(items, status)
-  // console.log("length of cart", items.length)
+  console.log("length of cart", items.length)
 
-  // console.log("items in cart", items)
+  console.log("items in cart", items)
 
   useEffect(() => {
     dispatch(fetchCart());
@@ -32,34 +33,17 @@ function Cart() {
 
   const RemoveItemFromCart = (data) => {
     dispatch(removeFromCart(data))
+    .then(() => {
+      toast("item removed from cart !!")
+    })
     console.log(data.id)
   }
 
 
-  const changeMode = useSelector((state) => state.mode)
+  const currentMode = useSelector((state) => state.mode.currentMode)
+  console.log("mode in cart", currentMode)
 
-  let cartBody = document.querySelector('.cartBody')
-  let cartHeading = document.querySelector('.cartHeading')
-  useEffect(() => {
-    if (changeMode.currentMode == 'light') {
-      if (cartBody) {
-        cartBody.style.color = 'black'
-        cartBody.style.backgroundColor = '#DCFCE7'
-        cartHeading.style.color = 'black'
-      }
-    }
-
-    if (changeMode.currentMode == 'dark') {
-      if (cartBody) {
-        cartBody.style.color = 'black'
-        cartBody.style.backgroundColor = '#1e1e1e'
-        cartHeading.style.color = 'white'
-      }
-
-    }
-
-  }, [changeMode.currentMode]);
-
+  
   //To send the price of the product to the buyNow page
   const buyNowItem = (price, data) => {
     dispatch(setPrice(price))
@@ -71,15 +55,26 @@ function Cart() {
     // dispatch(setPrice(price))           
   }
 
+  // const { currentMode } = useSelector((state) => state.mode)
+
+  // console.log("mode in cart", currentMode)
+
+
+
   return (
     <>
-      <div className='cartBody min-h-[100vh] h-auto  bg-green-100 box-border flex flex-col '>
-        <h1 className='cartHeading py-5 mt-14 text-2xl ml-10 self-start font-bold xl:ml-60 xl:text-4xl'>Welcome to Cart , Order Now</h1>
+      <div className={`cartBody min-h-[100vh] h-auto box-border flex flex-col 
+           ${currentMode === 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-green-100 text-black'}`}>
+        {
+          items?.length >= 1 && <h1 className='cartHeading py-5 mt-14 text-3xl ml-10 self-center font-bold  xl:text-5xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Welcome to Cart</h1>
+        }
         <div className='h-auto flex flex-col gap-5 items-center mb-20' >
           {
-            items ? items.map((data) => (
+            items?.length >= 1 ? items.map((data) => (
               <div className='searchedProduct w-[90vw] h-auto flex items-center flex-col ' key={data.id}>
-                <div className='h-auto w-[90vw] lg:h-50 lg:w-[70vw] flex items-center bg-yellow-200 rounded-2xl' >
+                <div className={`h-auto w-[90vw] lg:h-50 lg:w-[70vw] flex items-center rounded-2xl
+                   ${currentMode === 'dark' ? 'bg-[#000000] text-white' : 'bg-yellow-200 text-black'} `} >
+
                   <div className='w-[35vw] lg:w-[14vw] lg:h-50 flex items-center justify-center bg-blue-200 rounded-l-2xl'>
                     <img src={data.product.images[0]} alt="" className='h-35  xl:h-[20vh] xl:w-auto ' />
                   </div>
@@ -89,10 +84,11 @@ function Cart() {
                     <p className=' hidden text-s xl:flex'>{data.product.description}</p>
                   </div>
 
-                  <div className='relative right-2 lg:right-5 font-medium lg:ml-10 flex flex-col gap-2'>
+                  <div className="relative right-2 lg:right-5 font-medium lg:ml-10 flex flex-col gap-2 text-black">
+
                     <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
                       onClick={() => RemoveItemFromCart(data)}>
-                        <i className="fa-solid fa-trash"></i> Remove </button>
+                      <i className="fa-solid fa-trash"></i> Remove </button>
 
                     <NavLink to='/buynow'>
                       <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
@@ -105,11 +101,17 @@ function Cart() {
               </div>
             )) :
               (
-                <Loader />
+                items?.length < 1 ? (
+                  <div className=' h-[100vh] flex justify-center items-center'>
+                    <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty 💩</h1>
+                  </div>
+                ) : (
+                  <Loader />
+                )
               )
           }
         </div>
-        <div className='h-[8vh] w-screen bg-gray-900 text-white fixed bottom-0 flex justify-between px-5 items-center text-[18px] font-bold lg:h-17'>
+        {/* <div className='h-[8vh] w-screen bg-gray-900 text-white fixed bottom-0 flex justify-between px-5 items-center text-[18px] font-bold lg:h-17'>
           <div className='w-[55vw] flex gap-10 text-[17px]'>
             <p>Total Amount</p>
             <p>₹ {totalPrice}</p>
@@ -117,7 +119,7 @@ function Cart() {
           <NavLink to='/buynow' className='lg:mr-20'>
             <button className='bg-green-400 px-4 py-2 text-black rounded-[7px]' onClick={buyAllProducts(priceBuyNow)}>Order Now</button>
           </NavLink>
-        </div>
+        </div> */}
       </div>
 
     </>

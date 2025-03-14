@@ -8,43 +8,44 @@ import Swal from 'sweetalert2'
 function BuyNow() {
 
 
-    const changeMode = useSelector((state) => state.mode)
+    const currentMode = useSelector((state) => state.mode.currentMode)
     // console.log('mode in allproducts', changeMode.currentMode)
 
-    let buyNowPage = document.querySelector(".buyNowPage")
-    let buyNowForm = document.querySelector(".buyNowForm")
-    let totalAmount = document.querySelector(".totalAmount")
-    useEffect(() => {
-        if (changeMode.currentMode == 'light') {
-            if (buyNowPage) {
-                buyNowPage.style.backgroundColor = '#bbf7d0'
-            }
+    // let buyNowPage = document.querySelector(".buyNowPage")
+    // let buyNowForm = document.querySelector(".buyNowForm")
+    // let totalAmount = document.querySelector(".totalAmount")
 
-            if (buyNowForm) {
-                buyNowForm.style.backgroundColor = 'white'
-            }
+    // useEffect(() => {
+    //     if (changeMode.currentMode == 'light') {
+    //         if (buyNowPage) {
+    //             buyNowPage.style.backgroundColor = '#bbf7d0'
+    //         }
 
-            if (totalAmount) {
-                totalAmount.style.backgroundColor = 'white'
-            }
-        }
+    //         if (buyNowForm) {
+    //             buyNowForm.style.backgroundColor = 'white'
+    //         }
 
-        if (changeMode.currentMode == 'dark') {
-            if (buyNowPage) {
-                buyNowPage.style.backgroundColor = '#1e1e1e'
-            }
+    //         if (totalAmount) {
+    //             totalAmount.style.backgroundColor = 'white'
+    //         }
+    //     }
 
-            if (buyNowForm) {
-                buyNowForm.style.color = 'black'
-                buyNowForm.style.backgroundColor = '#bbf7d0'
-            }
+    //     if (changeMode.currentMode == 'dark') {
+    //         if (buyNowPage) {
+    //             buyNowPage.style.backgroundColor = '#1e1e1e'
+    //         }
 
-            if (totalAmount) {
-                totalAmount.style.backgroundColor = '#bbf7d0'
-            }
+    //         if (buyNowForm) {
+    //             buyNowForm.style.color = 'black'
+    //             buyNowForm.style.backgroundColor = '#bbf7d0'
+    //         }
 
-        }
-    }, [changeMode.currentMode]);
+    //         if (totalAmount) {
+    //             totalAmount.style.backgroundColor = '#bbf7d0'
+    //         }
+
+    //     }
+    // }, [changeMode.currentMode]);
 
 
     const { price, productData } = useSelector((state) => state.buyNow)
@@ -76,10 +77,10 @@ function BuyNow() {
             quantity: quantity,
             totalPrice: priceAfterTaxes,
         }));
-        console.log("data to send on orders" , product)
+        console.log("data to send on orders", product)
     }
 
-
+    const navigate = useNavigate()
     const { isItemOrdered } = useSelector((state) => state.orders)
     //after a successsful order , we are displaying this alert , after the alert completes , reset the isItemOrdered to false , in the orderSlice
     if (isItemOrdered) {
@@ -89,12 +90,14 @@ function BuyNow() {
             draggable: true
         }).then(() => {
             dispatch(setIsItemOrdered(false)); // Reset AFTER alert is closed
+            navigate("/")
         });
     }
 
     return (
         <>
-            <div className='buyNowPage text-black w-full h-auto mt-3 lg:mt-15 flex justify-center items-center lg:items-start flex-col-reverse lg:flex-row gap-10 ' >
+            <div className={`buyNowPage text-black w-full h-auto mt-3 lg:mt-15 flex justify-center items-center lg:items-start flex-col-reverse lg:flex-row gap-10 
+                      ${currentMode == 'dark' ? 'bg-[#0F1214] text-black' : 'bg-[#dadada] text-black'}`} >
                 <div className='w-[100vw] lg:w-[60vw] h-auto pb-20 relative bottom-20 lg:bottom-0'>
                     <div className="buyNowForm w-[90vw] lg:w-[40vw] mx-auto p-6 bg-white rounded-lg mt-20 ">
                         <h2 className="text-4xl font-bold mb-4 text-center">Order Now</h2>

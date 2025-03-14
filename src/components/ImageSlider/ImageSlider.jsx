@@ -63,9 +63,10 @@ function ImageSlider() {
 
     return (
         <>
-            <div className="w-full h-50 md:h-100 lg:h-140 mt-15 overflow-hidden"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}>
+            <div className="w-full h-50 md:h-100 lg:h-110 mt-15 overflow-hidden"
+                // onMouseEnter={() => setIsPaused(true)}
+                // onMouseLeave={() => setIsPaused(false)}
+            >
                 {/* Manual Controls */}
                 <div className="flex items-center justify-between px-10 z-10" >
                     <i className="fa-solid fa-angles-left text-3xl changeImageIcons"
@@ -75,13 +76,13 @@ function ImageSlider() {
                 </div>
 
                 {/* Slider */}
-                <div className="relative w-full h-50 md:h-100 lg:h-140">
+                <div className="relative w-full h-50 md:h-100 lg:h-110">
                     <AnimatePresence>
                         <motion.img
                             key={currentIndex}
                             src={images[currentIndex]}
                             alt="Slide"
-                            className="absolute w-full h-50 md:h-100 lg:h-140 object-cover"
+                            className="absolute w-full h-50 md:h-100 lg:h-110 object-cover"
                             initial={{ opacity: 0, x: 100 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -100 }}

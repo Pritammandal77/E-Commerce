@@ -1,26 +1,39 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrderHistory } from '../../features/Orders/OrderSlice';
+import Loader from '../Loader/NormalLoader/Loader';
 
 function OrderHistory() {
 
     const { products } = useSelector((state) => state.orders)
-    // console.log("products in product history", typeof products)
+    console.log("products in product history", products.length)
 
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(fetchOrderHistory())
     }, [dispatch]);
 
+
+
+    const currentMode = useSelector((state) => state.mode.currentMode)
+    console.log("mode in orderHistory", typeof currentMode)
+
+
     return (
         <>
-            <div className='min-h-100 mt-14 bg-green-100 flex flex-col items-center'>
-                <h1 className='font-bold text-3xl p-5 md:text-5xl'>Orders</h1>
-                <div className='h-auto flex flex-col gap-5 p-5 lg:gap-10'>
+            <div className={`min-h-100 mt-14 flex flex-col items-center
+             ${currentMode == 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-green-100 text-black'}`}>
+                {
+                    products?.length >= 1 && <h1 className='font-bold text-4xl p-5 md:text-5xl lg:text-6xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Orders</h1>
+                }
+                <div className='h-auto flex flex-col gap-15 p-5 lg:gap-15 items-center'>
                     {
-                        products ? products.map((data) => (
-                            <div key={data.id} className='flex flex-col lg:flex-row bg-yellow-200 gap-3 rounded-2xl w-[90vw] xl:w-[80vw]'>
-                                <div className='flex bg-green-300 lg:w-[50%] lg:flex-col lg:p-5 lg:gap-2 rounded-2xl'>
+                        products?.length >= 1 ? products.map((data) => (
+                            <div key={data.id} className={`flex flex-col lg:flex-row gap-3 rounded-2xl w-[90vw] xl:w-[80vw] 
+                               ${currentMode == 'dark' ? 'bg-[#181818] text-black' : 'bg-yellow-200 text-black'}`}>
+
+                                <div className={`flex lg:w-[50%] lg:flex-col lg:p-5 lg:gap-2 rounded-2xl
+                                     ${currentMode == 'dark' ? 'bg-black text-white' : 'bg-green-200 text-black'}`}>
                                     <div className='w-[35vw] lg:w-[100%] lg:h-55 flex items-center justify-center bg-blue-200 rounded-2xl'>
                                         <img src={data.image} alt="" className='h-35  xl:h-[20vh] xl:w-auto ' />
                                     </div>
@@ -39,14 +52,14 @@ function OrderHistory() {
                                     <p>Quantity : {data.purchasedQuantity}</p>
                                 </div> */}
                                 <div className='w-[90vw] px-2 sm:px-4 overflow-x-auto xl:w-[80vw]'>
-                                    <table className="table min-w-full text-left bg-green-200 border border-gray-300">
+                                    <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                         <thead className="w-[80vw] bg-gray-200 text-black">
                                             <tr className='bg-blue-200'>
                                                 <th colSpan="2" className="p-3 text-xl font-semibold border-b border-black text-center">Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr className="bg-gray-100">
+                                            <tr className="bg-gray-400">
                                                 <td className="p-3 border border-black font-semibold">Price</td>
                                                 <td className="p-3 border border-black">₹ {Math.floor(data.price * 83)}</td>
                                             </tr>
@@ -54,16 +67,16 @@ function OrderHistory() {
                                                 <td className="p-3 border border-black font-semibold">Quantity</td>
                                                 <td className="p-3 border border-black">{data.purchasedQuantity}</td>
                                             </tr>
-                                            <tr className="bg-gray-100">
+                                            <tr className="bg-gray-400">
                                                 <td className="p-3 border border-black font-semibold">Total Price</td>
-                                                <td className="p-3 border border-black">{data.totalPrice}</td>
+                                                <td className="p-3 border border-black">₹ {data.totalPrice}</td>
                                             </tr>
                                             <tr>
                                                 <td className="p-3 border border-black font-semibold">Date</td>
                                                 <td className="p-3 border border-black">{data.date}</td>
                                             </tr>
 
-                                            <tr className='bg-gray-100'>
+                                            <tr className='bg-gray-400'>
                                                 <td className="p-3 border border-black font-semibold ">Customer Name</td>
                                                 <td className="p-3 border border-black">{data.customerName}</td>
                                             </tr>
@@ -71,20 +84,22 @@ function OrderHistory() {
                                                 <td className="p-3 border border-black font-semibold">Email</td>
                                                 <td className="p-3 border border-black">{data.customerEmail}</td>
                                             </tr>
-                                            <tr className='bg-gray-100'>
+                                            <tr className='bg-gray-400'>
                                                 <td className="p-3 border border-black font-semibold">Address</td>
                                                 <td className="p-3 border border-black">{data.customerAddress}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
-
-
-
                             </div>
                         )) : (
-                            <h1>Not Found</h1>
+                            products?.length <= 0 ? (
+                                <div className='h-[100vh] flex items-center justify-center'>
+                                    <h1 className=' text-3xl text-center lg:text-4xl font-bold'>You haven't ordered anything 💩</h1>
+                                </div>
+                            ) : (
+                                <Loader />
+                            )
                         )
                     }
 

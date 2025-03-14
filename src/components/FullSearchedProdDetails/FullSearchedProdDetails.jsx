@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchProducts } from '../../features/SearchProducts/SearchProductSlice';
 import NotFound from '../NotFound/NotFound';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { addToCart, getProductDataFromComponents, setIsItemAdded } from '../../features/CartFeature/CartFeature';
 import { setPrice, setProductData } from '../../features/BuyNow/BuyNow';
 import Swal from 'sweetalert2'
+import { auth } from '../../config/firebase';
+import { toast } from 'react-toastify';
+import Loader from '../Loader/NormalLoader/Loader';
 
 function FullSearchedProdDetails() {
 
   //We are getting the Index of the searched product
-  let SearchedIndex = useSelector((state) => state.searchProduct.SearchedDataIndex)
+  let SearchedIndex;
   // console.log("index", SearchedIndex)
 
   let searchedData;
   try {
+    SearchedIndex = useSelector((state) => state.searchProduct.SearchedDataIndex)
     searchedData = useSelector((state) => state.searchProduct?.SearchProducts?.products[SearchedIndex])
     // console.log(searchedData)
   } catch (error) {
@@ -38,72 +42,63 @@ function FullSearchedProdDetails() {
   }
 
 
-  const changeMode = useSelector((state) => state.mode)
+  const currentMode = useSelector((state) => state.mode.currentMode)
 
-  let searchedPage = document.querySelector(".searchedPage")
-
-  if (changeMode.currentMode == 'light') {
-    try {
-      if (searchedPage) {
-        searchedPage.style.backgroundColor = '#dadada'
-        searchedPage.style.color = 'black'
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  if (changeMode.currentMode == 'dark') {
-    try {
-      if (searchedPage) {
-        searchedPage.style.color = 'white'
-        searchedPage.style.backgroundColor = '#1e1e1e'
-      }
-
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
+  const user = auth.currentUser;
 
   const dispatch = useDispatch()
   const addProductToCart = (data) => {
-    // console.log('data', data)
-    dispatch(getProductDataFromComponents(data))
-    dispatch(addToCart(data))
+    if (user) {
+      dispatch(getProductDataFromComponents(data))
+      dispatch(addToCart(data)).then(() => {
+        toast("Item added to cart  !!")
+      })
+    } else {
+      toast("Please log in to continue shopping !!")
+    }
   }
 
+  const navigate = useNavigate()
 
   //sending the price , and the full data to buyNowSlice
   const buyNow = (price, productData) => {
-    dispatch(setPrice(price))
-    dispatch(setProductData(productData))
+    if (user) {
+      dispatch(setPrice(price))
+      dispatch(setProductData(productData))
+
+    } else {
+      toast("Please log in to continue shopping !!")
+    }
   }
 
 
-
-  const { isItemAdded } = useSelector((state) => state.cart)
+  const { isItemAdded, status } = useSelector((state) => state.cart)
   // console.log("item added", isItemAdded)
   //If our item successfully added to cart , then fire an popup
-  if (isItemAdded) {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Item saved to Cart",
-      showConfirmButton: false,
-      timer: 1200
-    }).then(() => {
-      dispatch(setIsItemAdded(false)); // Reset After popup is closed
-    });
-  }
+  // if (isItemAdded) {
+  //   Swal.fire({
+  //     position: "center",
+  //     icon: "success",
+  //     title: "Item saved to Cart",
+  //     showConfirmButton: false,
+  //     timer: 1200
+  //   }).then(() => {
+  //     dispatch(setIsItemAdded(false)); // Reset After popup is closed
+  //   });
+  // }
 
+  //if user not looged in then show this message
+  const userNotLoggedIn = () => {
+    toast("Please log in to continue shopping !!")
+  }
 
   return (
     <>
       {/* <div className="h-screen w-full text-xl bg-yellow-10 mt-10"> */}
       {
         searchedData ? (
-          <div className='searchedPage flex flex-col lg:flex-row '>
+          <div className={`fullShirtData flex flex-col lg:flex-row 
+            ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'}`}>
             <div className='w-screen lg:w-1/2 flex overflow-hidden p-5 lg:p-20 justify-center items-center flex-col'>
               <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
@@ -121,14 +116,27 @@ function FullSearchedProdDetails() {
                   </div>
                 </div>
               </div>
-              <div className='bg-gray-900 lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0'>
+              <div className={`lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0 
+                                ${currentMode == 'dark' ? 'bg-black text-white' : 'bg-gray-900 text-black'}`}>
                 <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'
                   onClick={() => addProductToCart(searchedData)}> <i className="fa-solid fa-cart-shopping"></i>Add To Cart
                 </button>
-                <NavLink to='/buynow'>
-                  <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(searchedData.price, searchedData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
-                </NavLink>
+                {
+                  !user && <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={userNotLoggedIn}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                }
+                {
+                  user && <NavLink to="/buynow">
+                    <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(searchedData.price, searchedData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                  </NavLink>
+                }
+
+
               </div>
+            </div>
+            <div className='absolute w-screen '>
+              {
+                status == "Pending" && <Loader />
+              }
             </div>
             <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10'>
               <div className='h-auto flex flex-col justify-between '>
@@ -164,13 +172,13 @@ function FullSearchedProdDetails() {
                 </div>
               </div>
               <div className="w-full px-2 sm:px-4 overflow-x-auto">
-                <table className="table min-w-full text-left bg-green-200 border border-gray-300">
+                <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                   <tbody>
                     <tr>
                       <td className='font-bold'>Category</td>
                       <td>{searchedData.category}</td>
                     </tr>
-                    <tr className='bg-gray-100'>
+                    <tr className='bg-gray-400'>
                       <td className='font-bold'>Brand</td>
                       <td>{searchedData.brand}</td>
                     </tr>
@@ -178,7 +186,7 @@ function FullSearchedProdDetails() {
                       <td className='font-bold'>Return Policy </td>
                       <td>{searchedData.returnPolicy}</td>
                     </tr>
-                    <tr className='bg-gray-100'>
+                    <tr className='bg-gray-400'>
                       <td className='font-bold'>Shipping</td>
                       <td>{searchedData.shippingInformation}</td>
                     </tr>
@@ -186,7 +194,7 @@ function FullSearchedProdDetails() {
                       <td className='font-bold'>Stock</td>
                       <td>{searchedData.stock > 1 ? ("Available") : ("Not available")}</td>
                     </tr>
-                    <tr className='bg-gray-100'>
+                    <tr className='bg-gray-400'>
                       <td className='font-bold'>Warrenty</td>
                       <td>{searchedData.warrantyInformation}</td>
                     </tr>

@@ -82,6 +82,8 @@ const SignIn = React.lazy(() => import('./components/Login/SignIn/SignIn'))
 const Cart = React.lazy(() => import('./components/Cart/Cart'))
 const OrderHistory = React.lazy(() => import('./components/OrderHistory/OrderHistory'))
 const AboutUs = React.lazy(() => import('./components/AboutUs/AboutUs'))
+const Categories = React.lazy(() => import('./components/ProductCategories/Categories'))
+
 
 function App() {
 
@@ -102,6 +104,7 @@ function App() {
         <Route path='/cart' element={<Cart />}></Route>
         <Route path='/orderhistory' element={<OrderHistory />}></Route>
         <Route path='/aboutus' element={<AboutUs />}></Route>
+        <Route path='/category' element={<Categories />}></Route>
       </Route>
     )
   )

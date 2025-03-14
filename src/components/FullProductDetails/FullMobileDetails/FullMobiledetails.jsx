@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NotFound from '../../NotFound/NotFound';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { addToCart, fetchCart, getProductDataFromComponents, setIsItemAdded } from '../../../features/CartFeature/CartFeature';
 
 import Swal from 'sweetalert2'
 import { setPrice, setProductData } from '../../../features/BuyNow/BuyNow';
+import { auth } from '../../../config/firebase';
+
+import { toast } from 'react-toastify';
+import Loader from '../../Loader/NormalLoader/Loader';
 
 function FullMobiledetails() {
     let Index, mobilesData, fullMobilesData;
@@ -25,28 +29,8 @@ function FullMobiledetails() {
         console.log(error)
     }
 
-    const changeMode = useSelector((state) => state.mode)
+    const currentMode = useSelector((state) => state.mode.currentMode)
     // console.log('mode in allproducts', changeMode.currentMode)
-
-    let fullMobileData = document.querySelector(".fullMobileData")
-
-    useEffect(() => {
-        if (changeMode.currentMode == 'light') {
-            if (fullMobileData) {
-                fullMobileData.style.backgroundColor = '#dadada'
-                fullMobileData.style.color = 'black'
-            }
-
-        }
-
-        if (changeMode.currentMode == 'dark') {
-            if (fullMobileData) {
-                fullMobileData.style.color = 'white'
-                fullMobileData.style.backgroundColor = '#1e1e1e'
-            }
-
-        }
-    }, [changeMode.currentMode]);
 
 
     //for viewing full Image 
@@ -64,44 +48,51 @@ function FullMobiledetails() {
         setViewFullMobileImage(fullMobilesData.images[2])
     }
 
+
+    const user = auth.currentUser;
+
     //To send the product to cartSlice 
     const dispatch = useDispatch()
     const addProductToCart = (data) => {
         console.log('data', data)
-        // dispatch(fetchCart())
-        dispatch(getProductDataFromComponents(data))
-        dispatch(addToCart(data))
+
+
+        if (user) {
+            dispatch(getProductDataFromComponents(data))
+            dispatch(addToCart(data)).then(() => {
+                toast("Item Added To cart !!")
+            })
+        } else {
+            toast("Please log in to continue shopping !!")
+        }
     }
 
-
-    const { isItemAdded } = useSelector((state) => state.cart)
+    const { isItemAdded, status } = useSelector((state) => state.cart)
     console.log("shirt added", isItemAdded)
+    console.log("Status in mobile", status)
 
-    //If our item successfully added to cart , then fire an popup
-    if (isItemAdded) {
-        Swal.fire({
-            title: "Item Added To Cart!",
-            icon: "success",
-            draggable: true
-        }).then(() => {
-            dispatch(setIsItemAdded(false)); // Reset After popup is closed
-        });
-    }
-
-    
+    const navigate = useNavigate()
     //To send the price of the product to the buyNow page
-    const buyNow = (price , data) => {
-        dispatch(setPrice(price))
-        dispatch(setProductData(data))
+
+    const buyNow = (price, data) => {
+        if (user) {
+            dispatch(setPrice(price))
+            dispatch(setProductData(data))
+            navigate("/buynow")
+        }else{
+            toast("Please log in to continue shopping !!")
+        }
     }
+
 
     return (
         <>
             {
                 mobilesData.mobilesData?.products[Index] ? (
                     // true
-                    <div className='fullMobileData flex flex-col lg:flex-row '>
-                        <div className='w-screen lg:w-1/2 flex overflow-hidden p-5 lg:p-20 justify-center items-center flex-col'>
+                    <div className={`fullMobileData flex flex-col items-center justify-center lg:flex-row
+                      ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'} `}>
+                        <div className=' w-screen lg:w-[40vw] flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
                             <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
                                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
                                     <img src={viewFullMobileImage ? (viewFullMobileImage) : (fullMobilesData.images[0])} alt="" className='h-[27vw] lg:h-70 lg:w-auto' />
@@ -118,17 +109,24 @@ function FullMobiledetails() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='bg-gray-900 lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0 '>
+
+                            <div className={`lg:bg-transparent h-auto w-screen p-3 fixed bottom-0 lg:relative lg:h-30 lg:w-[40vw] flex items-center justify-evenly gap-2 sm:gap-0 
+                                ${currentMode == 'dark' ? 'bg-black text-white' : 'bg-gray-900 text-black'}`}>
                                 <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black'
                                     onClick={() => addProductToCart(fullMobilesData)}>
                                     <i className="fa-solid fa-cart-shopping"></i>Add To Cart
                                 </button>
-                                <NavLink to='/buynow'>
-                                    <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={buyNow(fullMobilesData.price, fullMobilesData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
-                                </NavLink>
+                             
+                                <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={() => buyNow(fullMobilesData.price, fullMobilesData)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                            
                             </div>
                         </div>
-                        <div className='w-screen lg:w-1/2 p-5 lg:p-20 md:px-20 flex flex-col gap-10'>
+                        <div className='absolute top-0 left-0'>
+                            {
+                                status == "Pending" && <Loader />
+                            }
+                        </div>
+                        <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10'>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullMobilesData.title}</p>
                                 <p>{fullMobilesData.description}</p>
@@ -162,13 +160,13 @@ function FullMobiledetails() {
                                 </div>
                             </div>
                             <div className="">
-                                <table className="table min-w-full text-left bg-green-200 border border-gray-300">
+                                <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                     <tbody>
                                         <tr>
                                             <td className='font-bold'>Category</td>
                                             <td>{fullMobilesData.category}</td>
                                         </tr>
-                                        <tr className='bg-gray-100'>
+                                        <tr className='bg-gray-400'>
                                             <td className='font-bold'>Brand</td>
                                             <td>{fullMobilesData.brand}</td>
                                         </tr>
@@ -176,7 +174,7 @@ function FullMobiledetails() {
                                             <td className='font-bold'>Return Policy </td>
                                             <td>{fullMobilesData.returnPolicy}</td>
                                         </tr>
-                                        <tr className='bg-gray-100'>
+                                        <tr className='bg-gray-400'>
                                             <td className='font-bold'>Shipping</td>
                                             <td>{fullMobilesData.shippingInformation}</td>
                                         </tr>
@@ -184,7 +182,7 @@ function FullMobiledetails() {
                                             <td className='font-bold'>Stock</td>
                                             <td>{fullMobilesData.stock > 1 ? ("Available") : ("Not available")}</td>
                                         </tr>
-                                        <tr className='bg-gray-100'>
+                                        <tr className='bg-gray-400'>
                                             <td className='font-bold'>Warrenty</td>
                                             <td>{fullMobilesData.warrantyInformation}</td>
                                         </tr>
