@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setIndex } from "../Mobiles/MobileSlice";
 
-// Async thunk for fetching shirts
+// For fetching shirts
 export const fetchShirts = createAsyncThunk('shirts/fetchShirts', async () => {
     const response = await fetch('https://dummyjson.com/products/category/mens-shirts');
     if (!response.ok) {

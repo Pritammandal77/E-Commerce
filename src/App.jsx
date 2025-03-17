@@ -1,73 +1,9 @@
-// import { useState } from 'react'
-// import './App.css'
-
-// import AllProducts from './components/AllProducts/AllProducts'
-// import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-// import Layout from './Layout'
-// import SearchedProducts from './components/SearchedProducts/SearchedProducts'
-// import FullSearchedProdDetails from './components/FullSearchedProdDetails/FullSearchedProdDetails'
-// import FullLaptopDetails from './components/FullProductDetails/FullLaptopDetails/FullLaptopDetails'
-// import FullShirtDetails from './components/FullProductDetails/FullShirtDetails/FullShirtDetails'
-// import FullMobiledetails from './components/FullProductDetails/FullMobileDetails/FullMobiledetails'
-// import BuyNow from './components/BuyNowForm/BuyNow'
-// import SignUp from './components/Login/SignUp/SignUp'
-// import SignIn from './components/Login/SignIn/SignIn'
-// import Skeleton from './components/Loader/Skeleton/Skeleton'
-
-// function App() {
-
-//   const router = createBrowserRouter(
-//     createRoutesFromElements(
-//       <Route path="/" element={<Layout/>}>
-//           <Route path="" element={<AllProducts/>}></Route>
-//           <Route path='/searchedproducts' element={<SearchedProducts/>}></Route>
-//           <Route path='/fullsearchedproductdetails' element={<FullSearchedProdDetails/>}></Route>
-//           <Route path='/fullmobiledetails' element={<FullMobiledetails/>}></Route>
-//           <Route path='/fulllaptopdetails' element={<FullLaptopDetails/>}></Route>
-//           <Route path='/fullshirtsdetails' element={<FullShirtDetails/>}></Route>
-//           <Route path='/signup' element={<SignUp/>}></Route>
-//           <Route path='/buynow' element={<BuyNow/>}></Route>
-//           <Route path='/signin' element={<SignIn/>}></Route>
-//           <Route path='/skeleton' element={<Skeleton/>}></Route>
-//       </Route>
-//     )
-//   )
-
-//   return (
-
-//     <>
-//       <RouterProvider router={router}/>
-//     </>
-//   )
-// }
-
-// export default App
-
-
-
-
-// import AllProducts from './components/AllProducts/AllProducts'
-// import Layout from './Layout'
-// import SearchedProducts from './components/SearchedProducts/SearchedProducts'
-// import FullSearchedProdDetails from './components/FullSearchedProdDetails/FullSearchedProdDetails'
-// import FullLaptopDetails from './components/FullProductDetails/FullLaptopDetails/FullLaptopDetails'
-// import FullShirtDetails from './components/FullProductDetails/FullShirtDetails/FullShirtDetails'
-// import FullMobiledetails from './components/FullProductDetails/FullMobileDetails/FullMobiledetails'
-// import BuyNow from './components/BuyNowForm/BuyNow'
-// import SignUp from './components/Login/SignUp/SignUp'
-// import SignIn from './components/Login/SignIn/SignIn'
-
-
-
-//yaha se next code start hora hain => 
-
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import React from 'react'
 import './App.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import Loader from './components/Loader/NormalLoader/Loader'
 import NotFound from './components/NotFound/NotFound'
-// import AboutUs from './components/AboutUs/AboutUs'
 
 const AllProducts = React.lazy(() => import('./components/AllProducts/AllProducts'))
 const Layout = React.lazy(() => import('./Layout'))

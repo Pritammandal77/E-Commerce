@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk for fetching shirts
+// For fetching shirts
 export const fetchLaptops = createAsyncThunk('fetchLaptops', async () => {
     const response = await fetch('https://dummyjson.com/products/category/laptops');
     if (!response.ok) {
@@ -9,7 +9,7 @@ export const fetchLaptops = createAsyncThunk('fetchLaptops', async () => {
     return response.json();
 });
 
-// Slice for shirts
+
 export const allLaptopsSlice = createSlice({
     name: 'shirts',
     initialState: {

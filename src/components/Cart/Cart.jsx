@@ -8,13 +8,13 @@ import { toast } from 'react-toastify';
 
 function Cart() {
 
-  const dispatch = useDispatch()
   const { items, status, error } = useSelector((state) => state.cart)
+  const currentMode = useSelector((state) => state.mode.currentMode)
 
-  // console.log(items, status)
-  console.log("length of cart", items.length)
+  const dispatch = useDispatch()
 
-  console.log("items in cart", items)
+  // console.log("length of cart", items.length)
+  // console.log("items in cart", items)
 
   useEffect(() => {
     dispatch(fetchCart());
@@ -23,57 +23,44 @@ function Cart() {
   let totalPrice = 0;
   let priceBuyNow = 0;
   for (let i = 0; i < items.length; i++) {
-    // console.log(items[i]?.product.price)
     if (items[i]?.product.price) {
       totalPrice = Math.floor(totalPrice + items[i].product.price * 83)
-      // console.log("totalPrice", totalPrice)
       priceBuyNow = priceBuyNow + items[i].product.price
     }
   }
 
   const RemoveItemFromCart = (data) => {
     dispatch(removeFromCart(data))
-    .then(() => {
-      toast("item removed from cart !!")
-    })
-    console.log(data.id)
+      .then(() => {
+        toast("item removed from cart !!")
+      })
   }
 
-
-  const currentMode = useSelector((state) => state.mode.currentMode)
-  console.log("mode in cart", currentMode)
-
-  
   //To send the price of the product to the buyNow page
   const buyNowItem = (price, data) => {
     dispatch(setPrice(price))
     dispatch(setProductData(data))
   }
 
-  //To send the price of the all products to the buyNow page , while dispatching this setPrice , we are getting an error in the console
-  const buyAllProducts = (price) => {
-    // dispatch(setPrice(price))           
-  }
-
-  // const { currentMode } = useSelector((state) => state.mode)
-
-  // console.log("mode in cart", currentMode)
-
-
-
   return (
     <>
       <div className={`cartBody min-h-[100vh] h-auto box-border flex flex-col 
-           ${currentMode === 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-green-100 text-black'}`}>
+           ${currentMode === 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-[#dadada] text-black'}`}>
         {
           items?.length >= 1 && <h1 className='cartHeading py-5 mt-14 text-3xl ml-10 self-center font-bold  xl:text-5xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Welcome to Cart</h1>
+        }
+        {
+          status == "pending" && <div className='h-screen  absolute self-center'>
+                                       <Loader />
+                                  </div>
+
         }
         <div className='h-auto flex flex-col gap-5 items-center mb-20' >
           {
             items?.length >= 1 ? items.map((data) => (
               <div className='searchedProduct w-[90vw] h-auto flex items-center flex-col ' key={data.id}>
                 <div className={`h-auto w-[90vw] lg:h-50 lg:w-[70vw] flex items-center rounded-2xl
-                   ${currentMode === 'dark' ? 'bg-[#000000] text-white' : 'bg-yellow-200 text-black'} `} >
+                   ${currentMode === 'dark' ? 'bg-[#000000] text-white' : 'bg-white text-black'} `} >
 
                   <div className='w-[35vw] lg:w-[14vw] lg:h-50 flex items-center justify-center bg-blue-200 rounded-l-2xl'>
                     <img src={data.product.images[0]} alt="" className='h-35  xl:h-[20vh] xl:w-auto ' />
@@ -111,15 +98,6 @@ function Cart() {
               )
           }
         </div>
-        {/* <div className='h-[8vh] w-screen bg-gray-900 text-white fixed bottom-0 flex justify-between px-5 items-center text-[18px] font-bold lg:h-17'>
-          <div className='w-[55vw] flex gap-10 text-[17px]'>
-            <p>Total Amount</p>
-            <p>₹ {totalPrice}</p>
-          </div>
-          <NavLink to='/buynow' className='lg:mr-20'>
-            <button className='bg-green-400 px-4 py-2 text-black rounded-[7px]' onClick={buyAllProducts(priceBuyNow)}>Order Now</button>
-          </NavLink>
-        </div> */}
       </div>
 
     </>

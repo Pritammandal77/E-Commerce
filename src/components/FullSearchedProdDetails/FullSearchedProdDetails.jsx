@@ -12,19 +12,23 @@ import Loader from '../Loader/NormalLoader/Loader';
 
 function FullSearchedProdDetails() {
 
-  //We are getting the Index of the searched product
-  let SearchedIndex;
-  // console.log("index", SearchedIndex)
+  const currentMode = useSelector((state) => state.mode.currentMode)
+  const { isItemAdded, status } = useSelector((state) => state.cart)
 
-  let searchedData;
+  const user = auth.currentUser;
+   
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  //We are getting the Index of the searched product
+  let SearchedIndex , searchedData;
+
   try {
     SearchedIndex = useSelector((state) => state.searchProduct.SearchedDataIndex)
     searchedData = useSelector((state) => state.searchProduct?.SearchProducts?.products[SearchedIndex])
-    // console.log(searchedData)
   } catch (error) {
     console.log(error)
   }
-
 
   //For Image layout
   const [viewFullSearchedImage, setViewFullSearchedImage] = useState(null)
@@ -42,14 +46,8 @@ function FullSearchedProdDetails() {
   }
 
 
-  const currentMode = useSelector((state) => state.mode.currentMode)
-
-  const user = auth.currentUser;
-
-  const dispatch = useDispatch()
   const addProductToCart = (data) => {
     if (user) {
-      dispatch(getProductDataFromComponents(data))
       dispatch(addToCart(data)).then(() => {
         toast("Item added to cart  !!")
       })
@@ -58,34 +56,16 @@ function FullSearchedProdDetails() {
     }
   }
 
-  const navigate = useNavigate()
 
   //sending the price , and the full data to buyNowSlice
   const buyNow = (price, productData) => {
     if (user) {
       dispatch(setPrice(price))
       dispatch(setProductData(productData))
-
     } else {
       toast("Please log in to continue shopping !!")
     }
   }
-
-
-  const { isItemAdded, status } = useSelector((state) => state.cart)
-  // console.log("item added", isItemAdded)
-  //If our item successfully added to cart , then fire an popup
-  // if (isItemAdded) {
-  //   Swal.fire({
-  //     position: "center",
-  //     icon: "success",
-  //     title: "Item saved to Cart",
-  //     showConfirmButton: false,
-  //     timer: 1200
-  //   }).then(() => {
-  //     dispatch(setIsItemAdded(false)); // Reset After popup is closed
-  //   });
-  // }
 
   //if user not looged in then show this message
   const userNotLoggedIn = () => {
@@ -94,12 +74,11 @@ function FullSearchedProdDetails() {
 
   return (
     <>
-      {/* <div className="h-screen w-full text-xl bg-yellow-10 mt-10"> */}
       {
         searchedData ? (
-          <div className={`fullShirtData flex flex-col lg:flex-row 
+          <div className={` flex flex-col items-center justify-center lg:flex-row
             ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'}`}>
-            <div className='w-screen lg:w-1/2 flex overflow-hidden p-5 lg:p-20 justify-center items-center flex-col'>
+            <div className=' w-screen lg:w-[40vw] flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
               <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
                   <img src={viewFullSearchedImage ? (viewFullSearchedImage) : (searchedData.images[0])} alt="" className='h-[27vw] lg:h-70 lg:w-auto' />
@@ -133,19 +112,19 @@ function FullSearchedProdDetails() {
 
               </div>
             </div>
-            <div className='absolute w-screen '>
+            <div className='absolute top-0 left-0'>
               {
                 status == "Pending" && <Loader />
               }
             </div>
-            <div className='w-screen lg:w-1/2 p-5 lg:p-20 flex flex-col gap-10'>
+            <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10'>
               <div className='h-auto flex flex-col justify-between '>
                 <p className='font-bold text-3xl'>{searchedData.title}</p>
                 <p>{searchedData.description}</p>
                 <div>
                   <div className="RatingCard">
                     <div className="ratingNum">
-                      <p className="count">4.5</p>
+                    <p className="count">{searchedData.rating}</p>
                     </div>
                     <div className="starIcon">
                       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="star">
@@ -171,7 +150,7 @@ function FullSearchedProdDetails() {
                   <p className='text-2xl font-bold'> ₹ {Math.floor(searchedData.price * 83)}</p>
                 </div>
               </div>
-              <div className="w-full px-2 sm:px-4 overflow-x-auto">
+              <div>
                 <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                   <tbody>
                     <tr>
@@ -214,7 +193,6 @@ function FullSearchedProdDetails() {
         )
 
       }
-      {/* </div> */}
 
     </>
   );

@@ -10,25 +10,24 @@ import { toast } from 'react-toastify';
 import Loader from '../../Loader/NormalLoader/Loader';
 
 function FullLaptopDetails() {
+    
+    const { isItemAdded, status } = useSelector((state) => state.cart)
+    const currentMode = useSelector((state) => state.mode.currentMode)
+
+    const user = auth.currentUser;
+    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     let LaptopsIndex, laptopsData, fullLaptopsData;
 
     try {
         LaptopsIndex = useSelector((state) => state.allLaptops.fullLaptopsDataIndex)
-        // console.log(LaptopsIndex)
-
         laptopsData = useSelector((state) => state.allLaptops.LaptopsData)
-        // console.log(laptopsData.products[LaptopsIndex])
-
         fullLaptopsData = laptopsData.products[LaptopsIndex];
-
     } catch (error) {
         console.log(error)
     }
-
-
-    const currentMode = useSelector((state) => state.mode.currentMode)
-
 
     const [viewFullLaptopImage, setViewFullLaptopImage] = useState(null)
 
@@ -45,14 +44,9 @@ function FullLaptopDetails() {
     }
 
 
-    const user = auth.currentUser;
-
     //To send the product to cartSlice , and save to cart
-    const dispatch = useDispatch()
     const addProductToCart = (data) => {
-        // console.log('data', data)
         if (user) {
-            dispatch(getProductDataFromComponents(data))
             dispatch(addToCart(data)).then(() => {
                 toast("Item added to cart  !!")
             })
@@ -60,8 +54,6 @@ function FullLaptopDetails() {
             toast("Please log in to continue shopping !!")
         }
     }
-
-    const navigate = useNavigate()
 
     //To send the price of the product to the buyNow page
     const buyNow = (price, productData) => {
@@ -74,17 +66,14 @@ function FullLaptopDetails() {
         }
     }
 
-    const { isItemAdded, status } = useSelector((state) => state.cart)
-    console.log("item added", isItemAdded)
-
 
     return (
         <>
             {
                 fullLaptopsData ? (
-                    <div className={`fullLaptopData flex flex-col lg:flex-row 
+                    <div className={`fullLaptopData flex flex-col items-center justify-center lg:flex-row
                     ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'} `}>
-                        <div className='w-screen lg:w-1/2 flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
+                        <div className='w-screen lg:w-[40vw] flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
                             <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
 
                                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
@@ -113,19 +102,19 @@ function FullLaptopDetails() {
 
                             </div>
                         </div>
-                        <div className='absolute w-screen '>
+                        <div className='absolute top-0 left-0'>
                             {
                                 status == "Pending" && <Loader />
                             }
                         </div>
-                        <div className='w-screen lg:w-1/2 px-5 lg:p-20 md:px-20 flex flex-col gap-10 '>
+                        <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10'>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullLaptopsData.title}</p>
                                 <p>{fullLaptopsData.description}</p>
                                 <div>
                                     <div className="RatingCard">
                                         <div className="ratingNum">
-                                            <p className="count">4.5</p>
+                                            <p className="count">{fullLaptopsData.rating}</p>
                                         </div>
                                         <div className="starIcon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="star">
@@ -151,7 +140,7 @@ function FullLaptopDetails() {
                                     <p className='text-2xl font-bold'> ₹ {Math.floor(fullLaptopsData.price * 83)}</p>
                                 </div>
                             </div>
-                            <div className="w-full px-2 sm:px-4 overflow-x-auto">
+                            <div>
                                 <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                     <tbody>
                                         <tr>

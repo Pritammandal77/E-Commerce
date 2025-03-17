@@ -18,8 +18,6 @@ function ImageSlider() {
         `${image5}`,
     ];
 
-
-    // const ImageSlider = ({ images, autoPlayInterval = 1000 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
@@ -43,19 +41,16 @@ function ImageSlider() {
         return () => clearInterval(interval); // Clear interval on unmount
     }, [currentIndex, isPaused, 1000]);
 
-    // inset-0 in buttons main div
+    const currentMode = useSelector((state) => state.mode.currentMode)
+    let icons = document.querySelectorAll('.changeImageIcons')
 
-    const changeMode = useSelector((state) => state.mode)
-
-    if (changeMode.currentMode == 'light') {
-        let icons = document.querySelectorAll('.changeImageIcons')
+    if (currentMode == 'light') {
         icons.forEach((icon) => {
             icon.style.color = 'black'
         })
     }
 
-    if (changeMode.currentMode == 'dark') {
-        let icons = document.querySelectorAll('.changeImageIcons')
+    if (currentMode == 'dark') {
         icons.forEach((icon) => {
             icon.style.color = 'white'
         })
@@ -63,10 +58,7 @@ function ImageSlider() {
 
     return (
         <>
-            <div className="w-full h-50 md:h-100 lg:h-110 mt-15 overflow-hidden"
-                // onMouseEnter={() => setIsPaused(true)}
-                // onMouseLeave={() => setIsPaused(false)}
-            >
+            <div className="w-full h-50 md:h-100 lg:h-110 mt-15 overflow-hidden" >
                 {/* Manual Controls */}
                 <div className="flex items-center justify-between px-10 z-10" >
                     <i className="fa-solid fa-angles-left text-3xl changeImageIcons"

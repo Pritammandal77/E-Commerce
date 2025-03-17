@@ -55,10 +55,7 @@ function Skeleton() {
                             <div className="bg-neutral-500/50 w-2/4 h-4 animate-pulse rounded-md"></div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
 
         </>

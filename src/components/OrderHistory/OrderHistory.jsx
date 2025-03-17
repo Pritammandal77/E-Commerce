@@ -6,31 +6,25 @@ import Loader from '../Loader/NormalLoader/Loader';
 function OrderHistory() {
 
     const { products } = useSelector((state) => state.orders)
-    console.log("products in product history", products.length)
+    const currentMode = useSelector((state) => state.mode.currentMode)
 
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(fetchOrderHistory())
-    }, [dispatch]);
-
-
-
-    const currentMode = useSelector((state) => state.mode.currentMode)
-    console.log("mode in orderHistory", typeof currentMode)
-
+    }, []);
 
     return (
         <>
             <div className={`min-h-100 mt-14 flex flex-col items-center
-             ${currentMode == 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-green-100 text-black'}`}>
+             ${currentMode == 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-[#dadada] text-black'}`}>
                 {
                     products?.length >= 1 && <h1 className='font-bold text-4xl p-5 md:text-5xl lg:text-6xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Orders</h1>
                 }
-                <div className='h-auto flex flex-col gap-15 p-5 lg:gap-15 items-center'>
+                <div className='h-auto flex flex-col gap-15 p-5 mb-20 lg:gap-15 items-center'>
                     {
                         products?.length >= 1 ? products.map((data) => (
-                            <div key={data.id} className={`flex flex-col lg:flex-row gap-3 rounded-2xl w-[90vw] xl:w-[80vw] 
-                               ${currentMode == 'dark' ? 'bg-[#181818] text-black' : 'bg-yellow-200 text-black'}`}>
+                            <div key={data.id} className={`flex flex-col lg:flex-row gap-3  rounded-2xl w-[90vw] xl:w-[80vw] 
+                               ${currentMode == 'dark' ? 'bg-[#2e2e2e] text-black' : 'bg-[#ffffff] text-black'}`}>
 
                                 <div className={`flex lg:w-[50%] lg:flex-col lg:p-5 lg:gap-2 rounded-2xl
                                      ${currentMode == 'dark' ? 'bg-black text-white' : 'bg-green-200 text-black'}`}>
@@ -43,14 +37,6 @@ function OrderHistory() {
                                     </div>
                                 </div>
 
-                                {/* <div className='p-2'>
-                                    <p>Price : ₹ {Math.floor(data.price * 83)}</p>
-                                    <p>Date : {data.date}</p>
-                                    <p>CustomerName : {data.customerName}</p>
-                                    <p>Email : {data.customerEmail}</p>
-                                    <p>Address :{data.customerAddress}</p>
-                                    <p>Quantity : {data.purchasedQuantity}</p>
-                                </div> */}
                                 <div className='w-[90vw] px-2 sm:px-4 overflow-x-auto xl:w-[80vw]'>
                                     <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                         <thead className="w-[80vw] bg-gray-200 text-black">

@@ -10,23 +10,25 @@ import Loader from '../../Loader/NormalLoader/Loader';
 import { useNavigate } from 'react-router-dom';
 
 function FullShirtDetails() {
+    
+    const currentMode = useSelector((state) => state.mode.currentMode)
+    const { isItemAdded, status } = useSelector((state) => state.cart)
+
+    const user = auth.currentUser;
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     let shirtIndex, shirtsData, fullShirtsdata;
 
     try {
         //Code For Shirts Data
         shirtIndex = useSelector((state) => state.allShirts.fullShirtDataIndex)
-        // console.log(shirtIndex)
         shirtsData = useSelector((state) => state.allShirts)
-        // console.log(shirtsData?.shirtsData?.products[shirtIndex])
         fullShirtsdata = shirtsData?.shirtsData?.products[shirtIndex]
-
     } catch (error) {
         console.log(error)
     }
-
-    const currentMode = useSelector((state) => state.mode.currentMode)
-
 
 
     //for viewing full Image 
@@ -44,14 +46,9 @@ function FullShirtDetails() {
         setViewFullShirtsImage(fullShirtsdata.images[2])
     }
 
-    const user = auth.currentUser;
-
-    //To send the product to cartSlice 
-    const dispatch = useDispatch()
-
     const addProductToCart = (data) => {
         if (user) {
-            dispatch(getProductDataFromComponents(data))
+            // dispatch(getProductDataFromComponents(data))
             dispatch(addToCart(data)).then(() => {
                 toast("Item added to cart  !!")
             })
@@ -60,7 +57,6 @@ function FullShirtDetails() {
         }
     }
 
-    const navigate = useNavigate()
     //To send the price of the product to the buyNow page , & product data to buynow.jsx & then send this product to productData to orderslice to save in the orders
     const buyNow = (price, productData) => {
         if (user) {
@@ -72,16 +68,14 @@ function FullShirtDetails() {
         }
     }
 
-    const { isItemAdded, status } = useSelector((state) => state.cart)
-
     return (
         <>
             {
                 fullShirtsdata ? (
-                    <div className={`fullShirtData flex flex-col lg:flex-row 
+                    <div className={`fullShirtData flex flex-col items-center justify-center lg:flex-row
                     ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'}`}>
-                        <div className='w-screen lg:w-1/2 flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
-                            <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0  lg:h-[70vh] '>
+                        <div className=' w-screen lg:w-[40vw] flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
+                            <div className='flex flex-col h-[40vh] justify-center gap-5 lg:justify-between items-center  p-10 rounded-2xl mt-10 lg:mt-0 lg:h-[70vh] '>
                                 <div className='bg-blue-300 h-[30vh] w-[80vw] lg:w-[30vw] flex justify-center items-center rounded-2xl lg:h-[50vh]'>
                                     <img src={viewFullShirtsImage ? (viewFullShirtsImage) : (fullShirtsdata.images[0])} alt="" className='h-[27vw] lg:h-70 lg:w-auto' />
                                 </div>
@@ -108,19 +102,19 @@ function FullShirtDetails() {
 
                             </div>
                         </div>
-                        <div className='absolute w-screen '>
+                        <div className='absolute top-0 left-0 '>
                             {
                                 status == "Pending" && <Loader />
                             }
                         </div>
-                        <div className='w-screen lg:w-1/2 px-5 lg:p-20 md:px-20 flex flex-col gap-10 '>
+                        <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10'>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullShirtsdata.title}</p>
                                 <p>{fullShirtsdata.description}</p>
                                 <div>
                                     <div className="RatingCard">
                                         <div className="ratingNum">
-                                            <p className="count">4.5</p>
+                                            <p className="count">{fullShirtsdata.rating}</p>
                                         </div>
                                         <div className="starIcon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="star">
@@ -146,7 +140,7 @@ function FullShirtDetails() {
                                     <p className='text-2xl font-bold'> ₹ {Math.floor(fullShirtsdata.price * 83)}</p>
                                 </div>
                             </div>
-                            <div className="w-full px-2 sm:px-4 overflow-x-auto">
+                            <div className="">
                                 <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                     <tbody>
                                         <tr>

@@ -1,4 +1,4 @@
-
+/* Theme button */
 .theme-popup {
     /* total */
     --total_text_color: #e0e0e0;
@@ -9,7 +9,7 @@
     --btn_height: 2em;
     --btn_border_radius: 0.3125em;
     --btn_outline_width: 0.0625em;
-    --btn_outline_color: #A0A0A0;
+    --btn_outline_color: #9c9c9c;
     --btn_outline_offset: 0.0625em;
     --btn_gap: 0.3125em;
     /* list */
@@ -17,8 +17,8 @@
     --list_bg: var(--btn_bg);
     --list_border_radius: var(--btn_border_radius);
     --list_gap: 0.1875em;
-    --list_btn_hover_bg: #5A5656;
-    --list_btn_active: #b9b9b970;
+    --list_btn_hover_bg: #363636;
+    --list_btn_active: #00000070;
     --list_btn_border_radius: 0.25em;
     --list_btn_padding: 0.35em 1em;
     --list_btn_gap: 0.4375em;
@@ -28,8 +28,6 @@
     --list_btn_font_size: 14px;
     --list_position_left: 0;
     --list_position_right: unset;
-    /* 👆 if you want to change sides just switch one property */
-    /* from properties to "unset" and the other to 0 */
   }
   
   .theme-popup__button .theme-popup__icons svg,
@@ -133,9 +131,7 @@
     display: block;
   }
 
-
-
-
+/* hamburger animation */
   @keyframes hamAni {
     from {
       transform: translate3d(70vw, 0, 0);

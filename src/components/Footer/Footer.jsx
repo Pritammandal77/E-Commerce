@@ -4,27 +4,13 @@ import { NavLink } from 'react-router-dom';
 
 function Footer() {
 
-    const changeMode = useSelector((state) => state.mode)
+    const currentMode = useSelector((state) => state.mode.currentMode)
 
-    if (changeMode.currentMode == 'light') {
-        let footer = document.querySelector('.footer')
-        // footer.style.backgroundColor = 'red'
-        if (footer) {
-            footer.style.backgroundColor = '#111827'
-
-        }
-
-    }
-
-    if (changeMode.currentMode == 'dark') {
-        let footer = document.querySelector('.footer')
-        footer.style.backgroundColor = 'black'
-
-    }
-
+    console.log("mode in footer", currentMode)
     return (
         <>
-            <footer className="footer bg-gray-900 text-white py-8 h-auto">
+            <footer className={`text-white py-8 h-auto
+                 ${currentMode == 'dark' ? 'bg-black' : 'bg-gray-900'}`}>
                 <div className="container mx-auto flex justify-between gap-8 px-20
               flex-col lg:flex-row">
                     <div>
@@ -65,7 +51,6 @@ function Footer() {
                     </div>
                 </div>
 
-                {/* Copyright */}
                 <div className="text-center mt-8 border-t border-gray-700 pt-4">
                     © {new Date().getFullYear()} AuraMart. All Rights Reserved.
                 </div>

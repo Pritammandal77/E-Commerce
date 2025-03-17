@@ -13,6 +13,15 @@ import { toast } from 'react-toastify';
 import Loader from '../../Loader/NormalLoader/Loader';
 
 function FullMobiledetails() {
+
+    const currentMode = useSelector((state) => state.mode.currentMode)
+    const { isItemAdded, status } = useSelector((state) => state.cart)
+
+    const user = auth.currentUser;
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     let Index, mobilesData, fullMobilesData;
 
     try {
@@ -21,16 +30,12 @@ function FullMobiledetails() {
 
         //getting the full data of the mobile
         mobilesData = useSelector((state) => state.allMobiles)
-        // console.log(mobilesData.mobilesData?.products[Index])
 
         //initailzing the full data to a variable , so we don't need to write the whole i.e, mobilesData.mobilesData?.products[Index]
         fullMobilesData = mobilesData.mobilesData?.products[Index];
     } catch (error) {
         console.log(error)
     }
-
-    const currentMode = useSelector((state) => state.mode.currentMode)
-    // console.log('mode in allproducts', changeMode.currentMode)
 
 
     //for viewing full Image 
@@ -49,16 +54,10 @@ function FullMobiledetails() {
     }
 
 
-    const user = auth.currentUser;
-
     //To send the product to cartSlice 
-    const dispatch = useDispatch()
     const addProductToCart = (data) => {
-        console.log('data', data)
-
-
         if (user) {
-            dispatch(getProductDataFromComponents(data))
+            // dispatch(getProductDataFromComponents(data))
             dispatch(addToCart(data)).then(() => {
                 toast("Item Added To cart !!")
             })
@@ -67,11 +66,6 @@ function FullMobiledetails() {
         }
     }
 
-    const { isItemAdded, status } = useSelector((state) => state.cart)
-    console.log("shirt added", isItemAdded)
-    console.log("Status in mobile", status)
-
-    const navigate = useNavigate()
     //To send the price of the product to the buyNow page
 
     const buyNow = (price, data) => {
@@ -89,7 +83,6 @@ function FullMobiledetails() {
         <>
             {
                 mobilesData.mobilesData?.products[Index] ? (
-                    // true
                     <div className={`fullMobileData flex flex-col items-center justify-center lg:flex-row
                       ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'} `}>
                         <div className=' w-screen lg:w-[40vw] flex overflow-hidden pt-5 lg:p-20 justify-center items-center flex-col'>
@@ -126,14 +119,14 @@ function FullMobiledetails() {
                                 status == "Pending" && <Loader />
                             }
                         </div>
-                        <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10'>
+                        <div className='w-screen lg:w-[40vw] px-5 lg:p-20 md:px-20 flex flex-col gap-10 '>
                             <div className='h-auto flex flex-col justify-between '>
                                 <p className='font-bold text-3xl'>{fullMobilesData.title}</p>
                                 <p>{fullMobilesData.description}</p>
                                 <div>
                                     <div className="RatingCard">
                                         <div className="ratingNum">
-                                            <p className="count">4.5</p>
+                                            <p className="count">{fullMobilesData.rating}</p>
                                         </div>
                                         <div className="starIcon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="star">

@@ -45,7 +45,7 @@ export const addOrderInHistory = createAsyncThunk("orders/addOrderInHistory", as
                 image: orderedProduct.images[0],
                 description: orderedProduct.description,
                 category: orderedProduct.category || "uncategorized",
-                date: new Date().toISOString().split('T')[0],// Example: "2025-03-02"
+                date: new Date().toISOString().split('T')[0],
                 customerName: buyerName,
                 customerEmail: buyerEmail,
                 customerAddress: shippingAddress,
@@ -66,10 +66,7 @@ export const addOrderInHistory = createAsyncThunk("orders/addOrderInHistory", as
 export const orderSlice = createSlice({
     name: 'orders',
     initialState: {
-        //getting the ordered product from components
-        orderedProduct: [],
-
-        //all orders are savee here i.e, products array
+        //all orders are save here i.e, products array
         products: [],
 
         status: "idle",
@@ -77,9 +74,6 @@ export const orderSlice = createSlice({
         isItemOrdered: false,
     },
     reducers: {
-        setOrderedProduct: (state, action) => {
-            state.orderedProduct = action.payload
-        },
         setIsItemOrdered: (state, action) => {
             state.isItemOrdered = action.payload
         }
@@ -98,9 +92,8 @@ export const orderSlice = createSlice({
                 state.error = action.payload;
             })
 
-
             .addCase(addOrderInHistory.fulfilled, (state, action) => {
-                console.log("🛒 Updating Order History - Product Added:", action.payload);
+                // console.log("🛒 Updating Order History - Product Added:", action.payload);
                 const existingItem = state.products.find((item) => item.id === action.payload.id);
                 if (existingItem) {
                     existingItem.quantity += 1;

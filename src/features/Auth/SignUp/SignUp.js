@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { auth , googleProvider} from "../../config/firebase";
 import { auth, googleProvider } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 
@@ -14,9 +13,7 @@ export const handleCreateUser = createAsyncThunk("auth/handleCreateUser",
                 displayName: user.displayName || "", // Handle null values
             };
         } catch (error) {
-            // return thunkAPI.rejectWithValue(error.message);  
-            console.log(error)
-            alert("Error happend")
+            return thunkAPI.rejectWithValue(error.message);   
         }
     }
 );
@@ -32,9 +29,7 @@ export const handleSignInUser = createAsyncThunk("auth/handleSignInUser",
                 displayName: user.displayName || "", // Handle null values
             };
         } catch (error) {
-            // return thunkAPI.rejectWithValue(error.message);  
-            console.log(error)
-            alert("Error happend")
+            return thunkAPI.rejectWithValue(error.message); 
         }
     }
 );
@@ -42,11 +37,10 @@ export const handleSignInUser = createAsyncThunk("auth/handleSignInUser",
 
 export const handleSignInWithGoogle = createAsyncThunk(
     "auth/handleSignInWithGoogle",
-    async (_, thunkAPI) => { // No empty object, use `_`
+    async (_, thunkAPI) => { 
         try {
             const userCredential = await signInWithPopup(auth, googleProvider);
             const user = userCredential.user;
-
             return {
                 uid: user.uid,
                 email: user.email,
@@ -65,7 +59,7 @@ export const handleLogout = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             await signOut(auth);
-            return null; // Correct way to clear user state
+            return null; 
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }
@@ -80,16 +74,6 @@ export const authSlice = createSlice({
         status: "idle",
         error: null,
         isloggedOut : false,
-        email: '',
-        password: '',
-    },
-    reducers: {
-        setEmail: (state, action) => {
-            state.email = action.payload;
-        },
-        setPassword: (state, action) => {
-            state.password = action.payload;
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -130,22 +114,21 @@ export const authSlice = createSlice({
                 state.error = action.payload;
             })
 
-
             .addCase(handleSignInUser.pending, (state) => {
                 state.status = "loading";
             })
             .addCase(handleSignInUser.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.user = action.payload; // Save user data
+                state.user = action.payload; 
             })
             .addCase(handleSignInUser.rejected, (state, action) => {
                 state.status = "failed";
-                state.error = action.payload; // Store error message
+                state.error = action.payload; 
             });
     },
 
 })
 
 
-export const { setEmail, setPassword } = authSlice.actions
+// export const { setEmail, setPassword } = authSlice.actions
 export default authSlice.reducer

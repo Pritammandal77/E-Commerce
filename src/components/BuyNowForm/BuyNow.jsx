@@ -7,50 +7,8 @@ import Swal from 'sweetalert2'
 
 function BuyNow() {
 
-
     const currentMode = useSelector((state) => state.mode.currentMode)
-    // console.log('mode in allproducts', changeMode.currentMode)
-
-    // let buyNowPage = document.querySelector(".buyNowPage")
-    // let buyNowForm = document.querySelector(".buyNowForm")
-    // let totalAmount = document.querySelector(".totalAmount")
-
-    // useEffect(() => {
-    //     if (changeMode.currentMode == 'light') {
-    //         if (buyNowPage) {
-    //             buyNowPage.style.backgroundColor = '#bbf7d0'
-    //         }
-
-    //         if (buyNowForm) {
-    //             buyNowForm.style.backgroundColor = 'white'
-    //         }
-
-    //         if (totalAmount) {
-    //             totalAmount.style.backgroundColor = 'white'
-    //         }
-    //     }
-
-    //     if (changeMode.currentMode == 'dark') {
-    //         if (buyNowPage) {
-    //             buyNowPage.style.backgroundColor = '#1e1e1e'
-    //         }
-
-    //         if (buyNowForm) {
-    //             buyNowForm.style.color = 'black'
-    //             buyNowForm.style.backgroundColor = '#bbf7d0'
-    //         }
-
-    //         if (totalAmount) {
-    //             totalAmount.style.backgroundColor = '#bbf7d0'
-    //         }
-
-    //     }
-    // }, [changeMode.currentMode]);
-
-
     const { price, productData } = useSelector((state) => state.buyNow)
-    // console.log('price of that item', price)
-    // console.log('product for buy now', productData)
 
     const platFormFee = 19;
     const extraFees = 29;
@@ -68,7 +26,6 @@ function BuyNow() {
     //Sending the product to orderSlice to save the ordered product on cloud firestore
     const saveOrderHistory = (e, product, buyerName, buyerEmail, shippingAddress, quantity, priceAfterTaxes) => {
         e.preventDefault()
-        // console.log(product)
         dispatch(addOrderInHistory({
             orderedProduct: product,
             buyerName: buyerName,
@@ -77,7 +34,6 @@ function BuyNow() {
             quantity: quantity,
             totalPrice: priceAfterTaxes,
         }));
-        console.log("data to send on orders", product)
     }
 
     const navigate = useNavigate()
@@ -89,7 +45,7 @@ function BuyNow() {
             icon: "success",
             draggable: true
         }).then(() => {
-            dispatch(setIsItemOrdered(false)); // Reset AFTER alert is closed
+            dispatch(setIsItemOrdered(false)); // Reset After alert is closed
             navigate("/")
         });
     }

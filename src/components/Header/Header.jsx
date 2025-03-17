@@ -7,25 +7,26 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { handleLogout } from '../../features/Auth/SignUp/SignUp';
 import { setMode } from '../../features/themeMode/themeMode';
-
 import Swal from 'sweetalert2'
 import { fetchCart } from '../../features/CartFeature/CartFeature';
 import { fetchOrderHistory } from '../../features/Orders/OrderSlice';
 
 
 function Header() {
-    const dispatch = useDispatch()
 
+    const { items, status, error } = useSelector((state) => state.cart)
+    const { products } = useSelector((state) => state.orders)
     const query = useSelector((state) => state.searchProduct.query)
-
-    //Getting auth state from the store 
+    const currentMode = useSelector((state) => state.mode.currentMode)
     const { user, isloggedOut } = useSelector((state) => state.auth)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
 
     //getting user input , and sending(dispatching) to the searchproductslice
     let value;
     const handleChange = (e) => {
         value = e.target.value
-        // console.log(value)
         dispatch(setQuery(value))
     }
 
@@ -36,52 +37,36 @@ function Header() {
     }, [query, dispatch]);
 
 
-    const navigate = useNavigate();
-
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
             navigate(`/searchedproducts`); // Navigate on Enter key press
         }
     };
 
-
+    //to open & clode hamburger
+    let hamburgerDiv = document.querySelector(".HamburgerDiv")
     const HandleOpenHamburger = () => {
-        let hamburgerDiv = document.querySelector(".HamburgerDiv")
         hamburgerDiv.style.display = "flex";
     }
 
-
     const HandleCloseHamburger = () => {
-        let hamburgerDiv = document.querySelector(".HamburgerDiv")
         hamburgerDiv.style.display = "none";
     }
-
-    // console.log("isloggedOut", isloggedOut)
-    // console.log("User :- ", user)
-
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [userImage, setUserImage] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
     const [userName, setUserName] = useState(null)
-    //Getting data of user when thwe auth state changes
 
+    //Getting data of user when the auth state changes
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log(user)
-                const uid = user.uid;
-                // console.log(uid)
-                // console.log(user.email)
-                // console.log(user.displayName)
-                // console.log(user.photoURL)
+                // console.log(user)
                 setUserImage(user.photoURL)
                 setUserEmail(user.email)
                 setIsLoggedIn(true)
                 setUserName(user.displayName)
-
-                //when a user logged in , they will redirect to home screen after a successful login 
-                // navigate('/')
 
                 //if we have user logged in, then we are fetching the cart , & the users order history
                 dispatch(fetchCart())
@@ -97,59 +82,23 @@ function Header() {
     const handleLogOut = () => {
         dispatch(handleLogout()).then(() => {
             //popup message , when the user logs out
-            // if (isloggedOut == true) {
             Swal.fire({
                 title: "Logged Out Successfully",
                 icon: "success",
                 draggable: true
             });
             location.reload();
-            // }
         })
     }
-
-    // console.log('email', userEmail && userEmail)
-
 
     //code for setting modes
     const handleLightMode = () => {
         dispatch(setMode('light'))
-
     }
     const handleDarkMode = () => {
         dispatch(setMode('dark'))
-
     }
 
-    //we are getting the state of mode from our mode store
-    const changeMode = useSelector((state) => state.mode)
-    // console.log('mode', changeMode.currentMode)
-
-    if (changeMode.currentMode == 'light') {
-        let header = document.querySelector('.header')
-        let hamburger = document.querySelector('.HamburgerBody')
-        if (header) {
-            header.style.backgroundColor = '#111827'
-        }
-        if (hamburger) {
-            hamburger.style.backgroundColor = '#111827'
-        }
-    }
-
-    if (changeMode.currentMode == 'dark') {
-        let header = document.querySelector('.header')
-        let hamburger = document.querySelector('.HamburgerBody')
-
-        header.style.backgroundColor = 'black'
-        hamburger.style.backgroundColor = 'black'
-
-    }
-
-    const { items, status, error } = useSelector((state) => state.cart)
-    const { products } = useSelector((state) => state.orders)
-    // console.log("length of cart in header", items.length)
-
-    // console.log("items in header", items.length)
     const [lengthOfCart, setLengthOfCart] = useState(null)
     const [lengthOfOrder, setLengthOfOrders] = useState(0)
 
@@ -160,7 +109,8 @@ function Header() {
 
     return (
         <>
-            <header className='header z-20 flex bg-gray-900 h-15 justify-between items-center fixed w-[100vw] top-0 left-0 p-0 md:px-10 lg:px-20 xl:px-10'>
+            <header className={`header z-20 flex  h-15 justify-between items-center text-white fixed w-[100vw] top-0 left-0 p-0 md:px-10 lg:px-20 xl:px-10
+                 ${currentMode == 'dark' ? 'bg-black ' : 'bg-gray-900'}`}>
                 <div className='flex text-2xl font-semibold cursor-pointer text-white px-3'>
                     <NavLink to=''>AuraMart</NavLink>
                 </div>
@@ -186,7 +136,8 @@ function Header() {
                             <i className="fa-solid fa-bars text-[25px] mr-0 cursor-pointer" id='menuIcon' style={{ color: 'white' }} onClick={HandleOpenHamburger}></i>
                         </li>
 
-                        <div className='HamburgerDiv hidden h-[100vh] w-[55vw] lg:w-[25vw] absolute top-0 right-0 '>
+                        <div className={`HamburgerDiv hidden h-[100vh] w-[55vw] lg:w-[25vw] absolute top-0 right-0 
+                             ${currentMode == 'dark' ? 'bg-black ' : 'bg-gray-900'}`}>
                             <div className='HamburgerBody flex flex-col h-[100vh] w-[55vw] lg:w-[25vw] absolute top-0 right-0 '>
                                 <i className="fa-solid fa-xmark text-white xMark self-end mt-5 mr-4 
                                 text-[25px] lg:mr-14 cursor-pointer" onClick={HandleCloseHamburger}></i>
@@ -214,15 +165,8 @@ function Header() {
                                         </p>
                                     </li>
                                     <hr className='w-[80%] self-center text-gray-500' />
-                                    {/* <li className='mt-5'>
-                                        {isLoggedIn ? (
-                                            <button className='bg-green-400 text-black font-bold h-10 w-30 rounded-[7px] cursor-pointer text-xl'
-                                                onClick={handleLogOut}>Logout</button>
-                                        ) : ("")}
 
-                                    </li> */}
 
-                                    
                                     <li onClick={HandleCloseHamburger}>
                                         <NavLink to='/' className='flex items-center gap-2 text-xl'
                                             style={({ isActive }) => ({
@@ -230,8 +174,6 @@ function Header() {
                                                 fontWeight: isActive ? "600" : "400",
                                             })}
                                         >
-                                            {/* <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-                                                className='cursor-pointer' /></svg> */}
                                             <i className="fa-solid fa-house"></i>
                                             <p className=' text-xl'>Home</p>
 
@@ -256,8 +198,6 @@ function Header() {
                                                 fontWeight: isActive ? "600" : "400",
                                             })}
                                         >
-                                            {/* <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#ffffff"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-                                                className='cursor-pointer' /></svg> */}
                                             <i className="fa-solid fa-cart-shopping"></i>
                                             <p className=' text-xl'>Cart</p>
                                             <p className='bg-red-600 text-white px-2 rounded-full text-xl'>{lengthOfCart}</p>
@@ -287,13 +227,13 @@ function Header() {
 
                                         </NavLink>
                                     </li>
-                                    <li className=''>
-                                        {isLoggedIn &&
+                                    {isLoggedIn &&
+                                        <li className=''>
                                             <p className='text-white flex items-center gap-2 text-xl cursor-pointer' onClick={handleLogOut}>
                                                 <i className="fa-solid fa-right-from-bracket text-white"></i> Sign Out
                                             </p>
-                                        }
-                                    </li>
+                                        </li>
+                                    }
                                     <li className='flex gap-2 items-center'>
                                         <i className="fa-solid fa-circle-half-stroke text-white text-xl"></i>
                                         <div className="theme-popup">
@@ -375,8 +315,6 @@ function Header() {
 
                                         </div>
                                     </li>
-                                    {/* <hr className='text-gray-500 w-[80%] self-center' /> */}
-                          
 
                                 </ul>
                             </div>

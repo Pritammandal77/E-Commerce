@@ -5,15 +5,13 @@ import { NavLink } from 'react-router-dom';
 function AboutUs() {
 
     const currentMode = useSelector((state) => state.mode.currentMode)
-    console.log("mode in aboutUs", typeof currentMode)
-
 
     return (
         <>
-            <div className={`mt-14 text-justify flex flex-col gap-20 lg:gap-0 
-                ${currentMode == 'dark' ? "bg-[#0F1214] text-white" : "bg-green-100 text-black"}`} >
+            <div className={`mt-14 text-justify flex flex-col gap-20 lg:gap-0 items-center
+                ${currentMode == 'dark' ? "bg-[#0F1214] text-white" : "bg-[#dadada] text-black"}`} >
 
-                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20'>
+                <div className='flex flex-col-reverse lg:flex-row items-center lg:py-30'>
                     <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 lg:pl-20'>
                         <h1 className="text-5xl lg:text-6xl font-bold self-start bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">About AuraMart</h1>
                         <p className="text-xl mb-4">
@@ -32,46 +30,43 @@ function AboutUs() {
                     </div>
                 </div>
 
-
-                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20'>
-                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[50vw] lg:flex justify-center items-center '>
+                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30'>
+                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[40vw] lg:flex justify-center items-center '>
                         <img src="techStack.svg" alt="" className='h-120' />
                     </div>
                     <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 '>
                         <h1 className="text-4xl lg:text-5xl font-bold  bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">Tech Stack</h1>
                         <ul className="list-disc pl-6 text-[19px]">
                             <li><strong>Frontend:</strong> React.js, Redux.js ,Tailwind CSS</li>
-                            <li><strong>API:</strong> Dummy JSON API for product data</li>
                             <li><strong>Backend:</strong> Firebase (for authentication & database)</li>
+                            <li><strong>API:</strong> Dummy JSON API for product data</li>
                             <li> <b>Others</b> : font awesome icon , uiverse.io , react toastify, swalalert</li>
                         </ul>
                     </div>
 
                 </div>
 
-                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 lg:p-20 mb-20'>
+                <div className='h-auto flex flex-col-reverse lg:flex-row items-center lg:py-30 mb-20'>
                     <div className='w-[90vw] lg:w-[50vw] flex flex-col justify-center items-center gap-3 '>
                         <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">Key Features</h1>
                         <ul className="list-disc pl-6 text-[19px]">
                             <li>Browse and search products</li>
-                            <li>Firebase authentication (Login/Signup)</li>
-                            <li>Add products to the cart</li>
+                            <li>View products by Categories</li>
                             <li>View product details</li>
+                            <li>Firebase authentication (SignIn/SignUp)</li>
+                            <li>Add products to the cart</li>
                             <li>Order Products</li>
-                            <li>Can view order history</li>
+                            <li>Order history</li>
                             <li>Dark & light mode</li>
                             <li>Dynamic UI with smooth user interactions</li>
                             <li>Responsive design for all devices</li>
                         </ul>
                     </div>
-                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[50vw] lg:flex justify-center items-center '>
+                    <div className='hidden w-[80vw] h-[40vh] lg:height-auto lg:w-[40vw] lg:flex justify-center items-center '>
                         <img src="features.svg" alt="image not found" className='h-120' />
                     </div>
                 </div>
 
-                {/* <p className="text-lg text-gray-700 mt-6">
-                    MetaMart is a personal project aimed at improving my frontend and backend development skills while providing an engaging shopping experience for users. 🚀
-                </p> */}
             </div>
         </>
     );

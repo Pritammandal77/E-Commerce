@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk for fetching shirts
+// Async thunk for fetching searchedProducts
 export const fetchSearchProducts = createAsyncThunk('fetchsearchProducts', async (query) => {
-    // const response = await fetch(`https://dummyjson.com/products/category/${query}`);
     const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
     if (!response.ok) {
         throw new Error('Failed to fetch Products');
@@ -10,7 +9,7 @@ export const fetchSearchProducts = createAsyncThunk('fetchsearchProducts', async
     return response.json();
 });
 
-// Async thunk for fetching shirts
+// Async thunk for fetching products by categories
 export const fetchProductsByCategory = createAsyncThunk('fetchProductsByCategory', async (query) => {
     const response = await fetch(`https://dummyjson.com/products/category/${query}`);
     if (!response.ok) {
@@ -18,8 +17,6 @@ export const fetchProductsByCategory = createAsyncThunk('fetchProductsByCategory
     }
     return response.json();
 });
-
-
 
 // Slice for shirts
 export const searchProductsSlice = createSlice({

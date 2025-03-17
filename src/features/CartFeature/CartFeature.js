@@ -13,7 +13,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async (_, thunkAPI) 
     const cartRef = collection(firestoredb, "carts", user.uid, "items"); // Subcollection of user cart
     try {
         const querySnapshot = await getDocs(cartRef);
-        console.log("Cart fetched:", querySnapshot.docs.map((doc) => doc.data()));
+        // console.log("Cart fetched:", querySnapshot.docs.map((doc) => doc.data()));
         return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -41,12 +41,6 @@ export const addToCart = createAsyncThunk("cart/addToCart", async (product, thun
 
         } else {
             const cartItem = {
-                // name: product.title,
-                // price: product.price,
-                // image: product.images,
-                // quantity: 1,
-                // description: product.description,
-                // category: product.category || "uncategorized",
                 product : product,
             };
 
@@ -62,7 +56,6 @@ export const addToCart = createAsyncThunk("cart/addToCart", async (product, thun
 
 // Remove Item from Cart 
 export const removeFromCart = createAsyncThunk("cart/removeFromCart", async (product, thunkAPI) => {
-    // const productId = String(product.id);
 
     const user = auth.currentUser;
     if (!user) return thunkAPI.rejectWithValue("User not logged in");
@@ -72,7 +65,6 @@ export const removeFromCart = createAsyncThunk("cart/removeFromCart", async (pro
         return product.id;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
-        console.log("error happend while deleting", error)
     }
 });
 
@@ -81,16 +73,12 @@ export const removeFromCart = createAsyncThunk("cart/removeFromCart", async (pro
 export const cartSlice = createSlice({
     name: "cart",
     initialState: {
-        product: [],
         items: [],
         status: "idle",
         error: null,
         isItemAdded: false,
     },
     reducers: {
-        getProductDataFromComponents: (state, action) => {
-            state.product = action.payload;
-        },
         setIsItemAdded: (state, action) => {
             state.isItemAdded = action.payload;
         }
@@ -111,7 +99,7 @@ export const cartSlice = createSlice({
 
 
             .addCase(addToCart.fulfilled, (state, action) => {
-                console.log("🛒 Updating Redux Store - Product Added:", action.payload);
+                // console.log("🛒 Updating Redux Store - Product Added:", action.payload);
                 const existingItem = state.items.find((item) => item.id === action.payload.id);
                 if (existingItem) {
                     existingItem.quantity += 1;
@@ -131,6 +119,10 @@ export const cartSlice = createSlice({
             // Remove from Cart
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.items = state.items.filter((item) => item.id !== action.payload);
+                state.status = "succeeded"
+            })
+            .addCase(removeFromCart.pending, (state, action) => {
+                state.status = "pending"
             })
     },
 });

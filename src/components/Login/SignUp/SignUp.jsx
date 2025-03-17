@@ -6,15 +6,17 @@ import { auth } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import Swal from 'sweetalert2'
+import { toast } from 'react-toastify';
 
 function SignUp() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
+    const currentMode = useSelector((state) => state.mode.currentMode)
     const { user, email, password, status } = useSelector((state) => state.auth)
-    // console.log(user ? (user) : ("user not found"))
 
-    console.log("status", status)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     if (status == 'succeeded') {
         Swal.fire({
@@ -24,12 +26,14 @@ function SignUp() {
         });
     }
 
-    const dispatch = useDispatch()
+    // if our Sign Up is failed , then popup this message
+    if (status == "failed") {
+        toast("Something went wrong")
+    }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log("Data ", userEmail, userPassword)
         dispatch(handleCreateUser({ email: userEmail, password: userPassword }));
     }
 
@@ -37,31 +41,20 @@ function SignUp() {
         dispatch(handleSignInWithGoogle())
     }
 
-    const navigate = useNavigate()
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                //when user is successfully signed up , he will redirect to homepage
+                //when user is successfully signed up , then redirect to homepage
                 navigate('/')
-            } else {
-                console.log('user is logged out')
             }
         });
-
     }, [auth]);
-
-    const currentMode = useSelector((state) => state.mode.currentMode)
-
-    console.log("mode in signup", currentMode)
-    console.log(email && "this is email", email)
-
 
 
     return (
         <>
             <div className={`signUpBody h-screen w-full flex justify-center items-center mt-5 text-red 
-                ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-green-100 text-black'}`}>
+                ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'}`}>
 
                 <div className={`xl:h-150 xl:w-280 w-[90vw] md:w-[60vw] h-auto py-10  xl:py-0 rounded-2xl flex
                    ${currentMode == 'dark' ? 'bg-[#ebebeb] text-white' : 'bg-white text-black border-1'} `}>

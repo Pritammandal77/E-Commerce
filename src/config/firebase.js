@@ -1,20 +1,16 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-
 import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_KEY,
-  authDomain: "metamart-store.firebaseapp.com",
-  projectId: "metamart-store",
-  storageBucket: "metamart-store.firebasestorage.app",
-  messagingSenderId: "348471729987",
-  appId: "1:348471729987:web:f83193e1a8dc753584d9f6"
+  authDomain: "the-aura-mart.firebaseapp.com",
+  projectId: "the-aura-mart",
+  storageBucket: "the-aura-mart.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_MESSAGE_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
