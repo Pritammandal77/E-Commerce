@@ -68,7 +68,6 @@ function AllProducts() {
         })
     }
 
-
     return (
         <>
             <ImageSlider />
@@ -166,67 +165,66 @@ function AllProducts() {
                 </div>
 
 
-                    <div className=' flex flex-col items-center p-5 gap-10 w-[100%] '>
-                        <h1 className='text-3xl md:text-5xl font-bold'>Our Happy Customers</h1>
+                {/* Reviews */}
+                <div className=' flex flex-col items-center p-5 gap-10 w-[100%] '>
+                    <h1 className='text-3xl md:text-5xl font-bold'>Our Happy Customers</h1>
 
-                        <div className=' h-auto w-[100%]  flex  flex-col md:flex-row justify-evenly items-center text-black gap-5 md:gap-0'>
+                    <div className=' h-auto w-[100%]  flex  flex-col md:flex-row justify-evenly items-center text-black gap-5 md:gap-0'>
 
-                            <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3 
+                        <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3 
                                    ${currentMode === 'dark' ? 'text-white ' : ' text-black'}`}>
-                                <div className='flex items-center gap-3'>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDAhOJUamES8K6nBUcoxkSCTFLjxuw--ukzQ&s" alt=""
-                                        className='w-13 rounded-[50%]' />
-                                    <div>
-                                        <p className='text-[19px]'>Hemant Sharma</p>
-                                       <p className='text-[18px]'>⭐⭐⭐⭐</p>
+                            <div className='flex items-center gap-3'>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDAhOJUamES8K6nBUcoxkSCTFLjxuw--ukzQ&s" alt=""
+                                    className='w-13 rounded-[50%]' />
+                                <div>
+                                    <p className='text-[19px]'>Hemant Sharma</p>
+                                    <p className='text-[18px]'>⭐⭐⭐⭐</p>
 
-                                    </div>
-                                </div>
-
-                                <div className='text-[16px]'>
-                                    <p>"Absolutely love this product! The quality is top-notch, and the delivery was super fast. Will definitely order again!"</p>
                                 </div>
                             </div>
 
-                           
-                            <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3
-                                   ${currentMode === 'dark' ? 'text-white' : ' text-black'}`}>
-                                <div className='flex items-center gap-3'>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zQ374bP5QCpWwasc_KLsqhAXI_AfRe_SUA&s" alt=""
-                                        className='w-13 rounded-[50%]' />
-                                    <div>
-                                        <p className='text-[19px]'>Sushmita Varma</p>
-                                        <p className='text-[18px]'>⭐⭐⭐⭐⭐</p>
-                                    </div>
-                                </div>
-
-                                <div className='text-[16px]'>
-                                    <p>"Great product, exactly as described. The packaging could be a bit better, but overall, I'm satisfied with my purchase."</p>
-                                </div>
+                            <div className='text-[16px]'>
+                                <p>"Absolutely love this product! The quality is top-notch, and the delivery was super fast. Will definitely order again!"</p>
                             </div>
-
-                            
-                            <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3
-                                   ${currentMode === 'dark' ? 'text-white' : ' text-black'}`}>
-                                <div className='flex items-center gap-3'>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGojvRu6zk7vUycPeQQOYBlE2B7u8hEWlyQA&s" alt=""
-                                        className='w-13 rounded-[50%]' />
-                                    <div>
-                                        <p className='text-[19px]'>Diya Singh</p>
-                                       <p className='text-[18px]'>⭐⭐⭐⭐</p>
-
-                                    </div>
-                                </div>
-
-                                <div className='text-[16px]'>
-                                    <p>"Decent product for the price. It works fine, but I expected slightly better quality. Good for casual use."</p>
-                                </div>
-                            </div>
-
                         </div>
+
+
+                        <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3
+                                   ${currentMode === 'dark' ? 'text-white' : ' text-black'}`}>
+                            <div className='flex items-center gap-3'>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zQ374bP5QCpWwasc_KLsqhAXI_AfRe_SUA&s" alt=""
+                                    className='w-13 rounded-[50%]' />
+                                <div>
+                                    <p className='text-[19px]'>Sushmita Varma</p>
+                                    <p className='text-[18px]'>⭐⭐⭐⭐⭐</p>
+                                </div>
+                            </div>
+
+                            <div className='text-[16px]'>
+                                <p>"Great product, exactly as described. The packaging could be a bit better, but overall, I'm satisfied with my purchase."</p>
+                            </div>
+                        </div>
+
+
+                        <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3
+                                   ${currentMode === 'dark' ? 'text-white' : ' text-black'}`}>
+                            <div className='flex items-center gap-3'>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGojvRu6zk7vUycPeQQOYBlE2B7u8hEWlyQA&s" alt=""
+                                    className='w-13 rounded-[50%]' />
+                                <div>
+                                    <p className='text-[19px]'>Diya Singh</p>
+                                    <p className='text-[18px]'>⭐⭐⭐⭐</p>
+
+                                </div>
+                            </div>
+
+                            <div className='text-[16px]'>
+                                <p>"Decent product for the price. It works fine, but I expected slightly better quality. Good for casual use."</p>
+                            </div>
+                        </div>
+
                     </div>
-
-
+                </div>
 
             </div>
 

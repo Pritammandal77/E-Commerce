@@ -6,7 +6,6 @@ function Footer() {
 
     const currentMode = useSelector((state) => state.mode.currentMode)
 
-    console.log("mode in footer", currentMode)
     return (
         <>
             <footer className={`text-white py-8 h-auto
@@ -24,7 +23,6 @@ function Footer() {
                         <ul className="space-y-2">
                             <li className='hover:text-green-400'><NavLink to="/orderhistory">Order Tracking</NavLink></li>
                             <li className='hover:text-green-400'><NavLink to="/cart">Cart Products</NavLink></li>
-                            <li>FAQs</li>
                         </ul>
                     </div>
 

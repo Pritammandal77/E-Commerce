@@ -7,13 +7,14 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify';
+import Loader from '../../Loader/NormalLoader/Loader';
 
 function SignUp() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
     const currentMode = useSelector((state) => state.mode.currentMode)
-    const { user, email, password, status } = useSelector((state) => state.auth)
+    const { user, status } = useSelector((state) => state.auth)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -30,7 +31,6 @@ function SignUp() {
     if (status == "failed") {
         toast("Something went wrong")
     }
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -59,10 +59,10 @@ function SignUp() {
                 <div className={`xl:h-150 xl:w-280 w-[90vw] md:w-[60vw] h-auto py-10  xl:py-0 rounded-2xl flex
                    ${currentMode == 'dark' ? 'bg-[#ebebeb] text-white' : 'bg-white text-black border-1'} `}>
 
-                    <div className='w-1/2 h-full bg-gray-800 rounded-l-2xl hidden xl:flex flex-col items-center justify-center gap-20 '>
+                    <div className='w-1/2 h-full bg-gray-800 rounded-l-2xl rounded-r-[40px] hidden xl:flex flex-col items-center justify-center gap-20 '>
                         <div className='text-center'>
                             <h1 className='text-white text-5xl'>Welcome to MetaMart !</h1> <br />
-                            <p className='text-2xl text-white'>Please Create an account</p>
+                            <p className='text-3xl text-white'>Please Create an account</p>
                         </div>
                         <img src="login.svg" alt="" className='w-70' />
                     </div>
@@ -104,6 +104,12 @@ function SignUp() {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className=' top-0 left-0 mt-10 z-100 fixed'>
+                {
+                    status == 'loading' && <Loader />
+                }
             </div>
         </>
     );

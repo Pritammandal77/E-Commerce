@@ -6,14 +6,12 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (_, thunkAPI) => {
     const user = auth.currentUser;
     if (!user) {
-        console.log("❌ No user logged in while fetching cart.");
         return [];
     }
 
     const cartRef = collection(firestoredb, "carts", user.uid, "items"); // Subcollection of user cart
     try {
         const querySnapshot = await getDocs(cartRef);
-        // console.log("Cart fetched:", querySnapshot.docs.map((doc) => doc.data()));
         return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -99,7 +97,6 @@ export const cartSlice = createSlice({
 
 
             .addCase(addToCart.fulfilled, (state, action) => {
-                // console.log("🛒 Updating Redux Store - Product Added:", action.payload);
                 const existingItem = state.items.find((item) => item.id === action.payload.id);
                 if (existingItem) {
                     existingItem.quantity += 1;

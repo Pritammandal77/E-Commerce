@@ -10,7 +10,7 @@ export const handleCreateUser = createAsyncThunk("auth/handleCreateUser",
             return {
                 uid: user.uid,
                 email: user.email,
-                displayName: user.displayName || "", // Handle null values
+                displayName: user.displayName || "", // Handling null values
             };
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);   
@@ -26,7 +26,7 @@ export const handleSignInUser = createAsyncThunk("auth/handleSignInUser",
             return {
                 uid: user.uid,
                 email: user.email,
-                displayName: user.displayName || "", // Handle null values
+                displayName: user.displayName || "", // Handling null values
             };
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message); 
@@ -44,11 +44,11 @@ export const handleSignInWithGoogle = createAsyncThunk(
             return {
                 uid: user.uid,
                 email: user.email,
-                displayName: user.displayName || "", // Handle null values
+                displayName: user.displayName || "", // Handling null values
             };
         } catch (error) {
             console.error("Google Sign-In Error:", error);
-            return thunkAPI.rejectWithValue(error.message); // Return error for handling in Redux
+            return thunkAPI.rejectWithValue(error.message); 
         }
     }
 );
@@ -82,11 +82,11 @@ export const authSlice = createSlice({
             })
             .addCase(handleCreateUser.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.user = action.payload; // Save user data
+                state.user = action.payload; 
             })
             .addCase(handleCreateUser.rejected, (state, action) => {
                 state.status = "failed";
-                state.error = action.payload; // Store error message
+                state.error = action.payload; 
             })
 
             .addCase(handleSignInWithGoogle.pending, (state) => {
@@ -129,6 +129,4 @@ export const authSlice = createSlice({
 
 })
 
-
-// export const { setEmail, setPassword } = authSlice.actions
 export default authSlice.reducer

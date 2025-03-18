@@ -1,17 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// For fetching shirts
-export const fetchLaptops = createAsyncThunk('fetchLaptops', async () => {
+// For fetching Laptops
+export const fetchLaptops = createAsyncThunk('laptops/fetchLaptops', async () => {
     const response = await fetch('https://dummyjson.com/products/category/laptops');
     if (!response.ok) {
-        throw new Error('Failed to fetch shirts');
+        throw new Error('Failed to fetch laptops');
     }
     return response.json();
 });
 
-
 export const allLaptopsSlice = createSlice({
-    name: 'shirts',
+    name: 'laptops',
     initialState: {
         isloading: false,
         LaptopsData: [],

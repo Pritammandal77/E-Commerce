@@ -49,12 +49,6 @@ function Cart() {
         {
           items?.length >= 1 && <h1 className='cartHeading py-5 mt-14 text-3xl ml-10 self-center font-bold  xl:text-5xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Welcome to Cart</h1>
         }
-        {
-          status == "pending" && <div className='h-screen  absolute self-center'>
-                                       <Loader />
-                                  </div>
-
-        }
         <div className='h-auto flex flex-col gap-5 items-center mb-20' >
           {
             items?.length >= 1 ? items.map((data) => (
@@ -89,7 +83,7 @@ function Cart() {
             )) :
               (
                 items?.length < 1 ? (
-                  <div className=' h-[100vh] flex justify-center items-center'>
+                  <div className=' h-[100vh] flex justify-center items-center lg:mt-10'>
                     <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty 💩</h1>
                   </div>
                 ) : (
@@ -100,6 +94,12 @@ function Cart() {
         </div>
       </div>
 
+      {/* For loading state */}
+      <div className=' top-0 left-0 mt-10 z-100 fixed'>
+        {
+          status == 'pending' && <Loader />
+        }
+      </div>
     </>
   );
 }

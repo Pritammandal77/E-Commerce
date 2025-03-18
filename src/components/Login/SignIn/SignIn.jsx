@@ -8,6 +8,7 @@ import { auth } from '../../../config/firebase';
 import Swal from 'sweetalert2'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Loader from '../../Loader/NormalLoader/Loader';
 
 function SignIn() {
 
@@ -47,12 +48,13 @@ function SignIn() {
 
     return (
         <>
+
             <div className={`signUpBody h-screen w-full flex justify-center items-center mt-5 text-red 
                 ${currentMode == 'dark' ? 'bg-[#0F1214] text-white' : 'bg-[#dadada] text-black'}`}>
                 <div className={`xl:h-150 xl:w-280 w-[90vw] md:w-[60vw] h-auto py-10  xl:py-0 rounded-2xl flex
                    ${currentMode == 'dark' ? 'bg-[#ebebeb] text-white' : 'bg-white text-black border-1'} `}>
 
-                    <div className='w-1/2 h-full bg-gray-800 rounded-l-2xl hidden xl:flex flex-col items-center justify-center gap-20 '>
+                    <div className='w-1/2 h-full bg-gray-800 rounded-l-2xl rounded-r-[40px] hidden xl:flex flex-col items-center justify-center gap-20 '>
                         <div className='text-center'>
                             <h1 className='text-white text-4xl'>Welcome Again to MetaMart !</h1> <br />
                             <p className='text-3xl text-white'>Please login to your account</p>
@@ -63,7 +65,7 @@ function SignIn() {
                     <div className='w-[80vw] mx-auto xl:w-1/2 md:py-15 lg:py-25 h-full rounded-2xl flex items-center justify-center text-black'  >
                         <div className="w-full max-w-sm p-6 rounded-lg ">
                             <h2 className="text-5xl font-semibold text-center text-gray-900">Sign In</h2>
-                           
+
                             <form className="mt-4" onSubmit={handleSubmit}>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600">Email</label>
@@ -93,6 +95,12 @@ function SignIn() {
                     </div>
 
                 </div>
+            </div>
+
+            <div className=' top-0 left-0 mt-10 z-100 fixed'>
+                {
+                    status == 'loading' && <Loader />
+                }
             </div>
         </>
     );

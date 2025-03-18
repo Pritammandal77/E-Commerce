@@ -80,7 +80,7 @@ function OrderHistory() {
                             </div>
                         )) : (
                             products?.length <= 0 ? (
-                                <div className='h-[100vh] flex items-center justify-center'>
+                                <div className='h-[100vh] flex items-center justify-center relative bottom-10'>
                                     <h1 className=' text-3xl text-center lg:text-4xl font-bold'>You haven't ordered anything 💩</h1>
                                 </div>
                             ) : (

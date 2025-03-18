@@ -72,7 +72,7 @@ function Header() {
                 dispatch(fetchCart())
                 dispatch(fetchOrderHistory())
             } else {
-                console.log('user is logged out')
+                console.log('no user logged in')
             }
         });
     }, [auth, isloggedOut]);
@@ -102,10 +102,11 @@ function Header() {
     const [lengthOfCart, setLengthOfCart] = useState(null)
     const [lengthOfOrder, setLengthOfOrders] = useState(0)
 
+    // whenever the user add something to cart , or order something the quantity to that thing increases
     useEffect(() => {
         setLengthOfCart(items.length);
         setLengthOfOrders(products.length)
-    }, [items, products]); // Runs only when `items` changes
+    }, [items, products]); 
 
     return (
         <>
@@ -228,7 +229,7 @@ function Header() {
                                         </NavLink>
                                     </li>
                                     {isLoggedIn &&
-                                        <li className=''>
+                                        <li>
                                             <p className='text-white flex items-center gap-2 text-xl cursor-pointer' onClick={handleLogOut}>
                                                 <i className="fa-solid fa-right-from-bracket text-white"></i> Sign Out
                                             </p>
@@ -311,14 +312,10 @@ function Header() {
                                                     </li>
                                                 </ul>
                                             </div>
-
-
                                         </div>
                                     </li>
-
                                 </ul>
                             </div>
-
                         </div>
                     </ul >
                 </div >

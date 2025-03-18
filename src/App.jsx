@@ -20,7 +20,6 @@ const OrderHistory = React.lazy(() => import('./components/OrderHistory/OrderHis
 const AboutUs = React.lazy(() => import('./components/AboutUs/AboutUs'))
 const Categories = React.lazy(() => import('./components/ProductCategories/Categories'))
 
-
 function App() {
 
   const router = createBrowserRouter(

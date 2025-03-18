@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addOrderInHistory, fetchOrderHistory, setIsItemOrdered, setOrderedProduct } from '../../features/Orders/OrderSlice';
+import { addOrderInHistory, setIsItemOrdered } from '../../features/Orders/OrderSlice';
 
 import Swal from 'sweetalert2'
+import Loader from '../Loader/NormalLoader/Loader';
 
 function BuyNow() {
 
@@ -37,7 +38,7 @@ function BuyNow() {
     }
 
     const navigate = useNavigate()
-    const { isItemOrdered } = useSelector((state) => state.orders)
+    const { isItemOrdered, orderStatus } = useSelector((state) => state.orders)
     //after a successsful order , we are displaying this alert , after the alert completes , reset the isItemOrdered to false , in the orderSlice
     if (isItemOrdered) {
         Swal.fire({
@@ -50,10 +51,14 @@ function BuyNow() {
         });
     }
 
+    console.log("status on buy now", orderStatus)
+
     return (
         <>
+
             <div className={`buyNowPage text-black w-full h-auto mt-3 lg:mt-15 flex justify-center items-center lg:items-start flex-col-reverse lg:flex-row gap-10 
                       ${currentMode == 'dark' ? 'bg-[#0F1214] text-black' : 'bg-[#dadada] text-black'}`} >
+
                 <div className='w-[100vw] lg:w-[60vw] h-auto pb-20 relative bottom-20 lg:bottom-0'>
                     <div className="buyNowForm w-[90vw] lg:w-[40vw] mx-auto p-6 bg-white rounded-lg mt-20 ">
                         <h2 className="text-4xl font-bold mb-4 text-center">Order Now</h2>
@@ -98,6 +103,7 @@ function BuyNow() {
                         </form>
                     </div>
                 </div>
+
                 <div className='totalAmount w-[90vw] lg:w-[25vw] bg-white h-auto lg:h-[55vh] flex flex-col justify-between p-10 text-[20px] mt-20 gap-2 lg:gap-0' >
                     <p className='text-center text-[28px] font-bold'>Price Details</p>
                     <div className='flex justify-between mx-5' >
@@ -122,6 +128,13 @@ function BuyNow() {
                         <p>₹ {priceAfterTaxes}</p>
                     </div>
                 </div>
+            </div>
+
+            {/* if our orderstate is pending then showing this loader */}
+            <div className=' top-0 left-0 mt-10 z-100 fixed'>
+                {
+                    orderStatus == 'Pending' && <Loader />
+                }
             </div>
         </>
     );

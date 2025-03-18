@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk for fetching searchedProducts
+// Async thunk for fetching searched products
 export const fetchSearchProducts = createAsyncThunk('fetchsearchProducts', async (query) => {
     const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
     if (!response.ok) {
@@ -18,12 +18,13 @@ export const fetchProductsByCategory = createAsyncThunk('fetchProductsByCategory
     return response.json();
 });
 
-// Slice for shirts
+// Slice for searched products
 export const searchProductsSlice = createSlice({
     name: 'SearchedProduct',
     initialState: {
         isloading: false,
-        SearchProducts: [],
+        SearchProducts: [], // Original data
+        defaultProduct: [] , // data for default filter , stored here.
         isError: false,
         query: "",
         SearchedDataIndex: 1,
@@ -33,8 +34,21 @@ export const searchProductsSlice = createSlice({
             state.query = action.payload;
         },
         setSearchedDataIndex: (state, action) => {
-            state.SearchedDataIndex = action.payload
-        }
+            state.SearchedDataIndex = action.payload;
+        },
+        sortByPriceInAscending: (state) => {
+            if (state.SearchProducts.products) {
+                state.SearchProducts.products.sort((a, b) => a.price - b.price);
+            }
+        },
+        sortByPriceInDescending: (state) => {
+            if (state.SearchProducts.products) {
+                state.SearchProducts.products.sort((a, b) => b.price - a.price);
+            }
+        },
+        setDefaultProduct: (state) => {
+            state.SearchProducts = state.defaultProduct 
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -44,6 +58,7 @@ export const searchProductsSlice = createSlice({
             .addCase(fetchSearchProducts.fulfilled, (state, action) => {
                 state.isloading = false;
                 state.SearchProducts = action.payload;
+                state.defaultProduct = action.payload // stored default products data , to show then user selects default filter
             })
             .addCase(fetchSearchProducts.rejected, (state, action) => {
                 console.error("Error:", action.error.message);
@@ -57,6 +72,7 @@ export const searchProductsSlice = createSlice({
             .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
                 state.isloading = false;
                 state.SearchProducts = action.payload;
+                state.defaultProduct = action.payload; // stored default products data , to show then user selects default filter
             })
             .addCase(fetchProductsByCategory.rejected, (state, action) => {
                 console.error("Error:", action.error.message);
@@ -66,5 +82,5 @@ export const searchProductsSlice = createSlice({
     },
 });
 
-export const { setQuery, setSearchedDataIndex } = searchProductsSlice.actions
+export const { setQuery,  setSearchedDataIndex,  sortByPriceInAscending,  sortByPriceInDescending,  setDefaultProduct } = searchProductsSlice.actions;
 export default searchProductsSlice.reducer;

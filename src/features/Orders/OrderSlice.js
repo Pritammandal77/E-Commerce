@@ -12,7 +12,7 @@ export const fetchOrderHistory = createAsyncThunk("orders/fetchOrderHistory", as
     const orderRef = collection(firestoredb, "orders", user.uid, "products"); // Subcollection of user cart
     try {
         const querySnapshot = await getDocs(orderRef);
-        console.log("order fetched:", querySnapshot.docs.map((doc) => doc.data()));
+        // console.log("order fetched:", querySnapshot.docs.map((doc) => doc.data()));
         return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -68,49 +68,49 @@ export const orderSlice = createSlice({
     initialState: {
         //all orders are save here i.e, products array
         products: [],
-
-        status: "idle",
+        
+        FetchingOrderStatus: "idle",
+        orderStatus :"idle",
         error: null,
         isItemOrdered: false,
     },
     reducers: {
         setIsItemOrdered: (state, action) => {
             state.isItemOrdered = action.payload
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchOrderHistory.pending, (state) => {
-                state.status = "loading";
+                state.FetchingOrderStatus = "loading";
             })
             .addCase(fetchOrderHistory.fulfilled, (state, action) => {
-                state.status = "succeeded";
-                state.products = action.payload;
+                state.FetchingOrderStatus = "succeeded";
+                state.products = action.payload.sort((a, b) => new Date(b.date) - new Date(a.date));
             })
             .addCase(fetchOrderHistory.rejected, (state, action) => {
-                state.status = "failed";
+                state.FetchingOrderStatus = "failed";
                 state.error = action.payload;
             })
 
             .addCase(addOrderInHistory.fulfilled, (state, action) => {
-                // console.log("🛒 Updating Order History - Product Added:", action.payload);
                 const existingItem = state.products.find((item) => item.id === action.payload.id);
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
                     state.products.push(action.payload);
                 }
-                state.status = 'succeeded'
+                state.orderStatus = 'succeeded'
                 state.isItemOrdered = true;
             })
             .addCase(addOrderInHistory.rejected, (state, actions) => {
-                state.status = "Failed"
+                state.orderStatus = "Failed"
             })
             .addCase(addOrderInHistory.pending, (state, actions) => {
-                state.status = "Pending"
+                state.orderStatus = "Pending"
             })
     }
 })
 
-export const { setOrderedProduct, setIsItemOrdered } = orderSlice.actions
+export const { setOrderedProduct, setIsItemOrdered ,setProductsByNewestDate} = orderSlice.actions
 export default orderSlice.reducer
