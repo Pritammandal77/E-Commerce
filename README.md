@@ -32,10 +32,6 @@ The app will be available at `https://the-aura-mart.netlify.app/`.
 
 Feel free to fork this repository, create a new branch, and submit a pull request.
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
 ---
 
 ### 📧 Contact
