@@ -4,6 +4,7 @@ import './App.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import Loader from './components/Loader/NormalLoader/Loader'
 import NotFound from './components/NotFound/NotFound'
+import FullProductDetails from './components/FullProductDetails/FullProductDetails'
 
 const AllProducts = React.lazy(() => import('./components/AllProducts/AllProducts'))
 const Layout = React.lazy(() => import('./Layout'))
@@ -41,6 +42,7 @@ function App() {
         <Route path='/orderhistory' element={<OrderHistory />}></Route>
         <Route path='/aboutus' element={<AboutUs />}></Route>
         <Route path='/category' element={<Categories />}></Route>
+        <Route path='/fullProductDetails' element={<FullProductDetails />}></Route>
       </Route>
     )
   )

@@ -26,15 +26,11 @@ export const searchProductsSlice = createSlice({
         SearchProducts: [],
         isError: false,
         query: "",
-        SearchedDataIndex: 1,
     },
     reducers: {
         setQuery: (state, action) => {
             state.query = action.payload;
         },
-        setSearchedDataIndex: (state, action) => {
-            state.SearchedDataIndex = action.payload
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -66,5 +62,5 @@ export const searchProductsSlice = createSlice({
     },
 });
 
-export const { setQuery, setSearchedDataIndex } = searchProductsSlice.actions
+export const { setQuery } = searchProductsSlice.actions
 export default searchProductsSlice.reducer;
