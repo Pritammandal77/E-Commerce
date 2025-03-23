@@ -36,7 +36,7 @@ function ImageSlider() {
     // Autoplay functionality
     useEffect(() => {
         if (isPaused) return; // Pause autoplay if the user hovers over the slider
-        const interval = setInterval(nextSlide, 2000);
+        const interval = setInterval(nextSlide, 3000);
 
         return () => clearInterval(interval); // Clear interval on unmount
     }, [currentIndex, isPaused, 1000]);

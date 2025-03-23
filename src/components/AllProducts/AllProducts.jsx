@@ -94,7 +94,7 @@ function AllProducts() {
                                     </NavLink>
                                 ))
                             ) : (
-                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]'>
+                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
                                     <Skeleton />
                                     <Skeleton />
                                 </h1>
@@ -125,7 +125,7 @@ function AllProducts() {
                                     </NavLink>
                                 ))
                             ) : (
-                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]'>
+                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
                                     <Skeleton />
                                 </h1>
                             )
@@ -156,7 +156,7 @@ function AllProducts() {
                                     </NavLink>
                                 ))
                             ) : (
-                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]'>
+                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
                                     <Skeleton />
                                 </h1>
                             )
