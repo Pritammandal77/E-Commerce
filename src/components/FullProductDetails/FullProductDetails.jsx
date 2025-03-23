@@ -10,9 +10,6 @@ import NotFound from '../NotFound/NotFound';
 
 function FullProductDetails() {
     const { product } = useSelector((state) => state.fullProductsData)
-    console.log(product? true : false)
-    console.log(product)
-
     const currentMode = useSelector((state) => state.mode.currentMode)
     const { isItemAdded, status } = useSelector((state) => state.cart)
 
@@ -34,7 +31,6 @@ function FullProductDetails() {
     const thirdImage = () => {
         setViewFullMobileImage(product.images[2])
     }
-
 
     //To send the product to cartSlice 
     const addProductToCart = (data) => {

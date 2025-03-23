@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 export const fullProductSlice = createSlice({
     name: 'fullProduct',
     initialState: {

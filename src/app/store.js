@@ -8,7 +8,7 @@ import modeReducer  from '../features/themeMode/themeMode';
 import cartReducer  from '../features/CartFeature/CartFeature';
 import buyNowReducer  from '../features/BuyNow/BuyNow';
 import ordersReducer  from '../features/Orders/OrderSlice';
-import { fullProductSlice } from '../features/fullProductDetails/FullProductDetails';
+import  fullProductreducer  from '../features/fullProductDetails/FullProductDetails';
 
 const store = configureStore({
     reducer: {
@@ -21,7 +21,7 @@ const store = configureStore({
         cart: cartReducer,
         buyNow: buyNowReducer,
         orders: ordersReducer,
-        fullProductsData : fullProductSlice.reducer
+        fullProductsData : fullProductreducer
     }
 })
 
