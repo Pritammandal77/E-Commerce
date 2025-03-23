@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setIndex } from "../Mobiles/MobileSlice";
 
 // For fetching shirts
 export const fetchShirts = createAsyncThunk('shirts/fetchShirts', async () => {
@@ -17,12 +16,6 @@ export const allShirtsSlice = createSlice({
         isloading: false,
         shirtsData: [],
         isError: false,
-        fullShirtDataIndex : '',
-    },
-    reducers : {
-        setShirtIndex : (state, action) => {
-            state.fullShirtDataIndex = action.payload
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -41,5 +34,4 @@ export const allShirtsSlice = createSlice({
     },
 });
 
-export const {setShirtIndex} = allShirtsSlice.actions;
 export default allShirtsSlice.reducer;

@@ -27,14 +27,10 @@ export const searchProductsSlice = createSlice({
         defaultProduct: [] , // data for default filter , stored here.
         isError: false,
         query: "",
-        SearchedDataIndex: 1,
     },
     reducers: {
         setQuery: (state, action) => {
             state.query = action.payload;
-        },
-        setSearchedDataIndex: (state, action) => {
-            state.SearchedDataIndex = action.payload;
         },
         sortByPriceInAscending: (state) => {
             if (state.SearchProducts.products) {
@@ -82,5 +78,5 @@ export const searchProductsSlice = createSlice({
     },
 });
 
-export const { setQuery,  setSearchedDataIndex,  sortByPriceInAscending,  sortByPriceInDescending,  setDefaultProduct } = searchProductsSlice.actions;
+export const { setQuery,  sortByPriceInAscending,  sortByPriceInDescending,  setDefaultProduct } = searchProductsSlice.actions;
 export default searchProductsSlice.reducer;

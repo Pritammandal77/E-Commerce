@@ -18,7 +18,10 @@ function OrderHistory() {
             <div className={`min-h-100 mt-14 flex flex-col items-center
              ${currentMode == 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-[#dadada] text-black'}`}>
                 {
-                    products?.length >= 1 && <h1 className='font-bold text-4xl p-5 md:text-5xl lg:text-6xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Orders</h1>
+                    products?.length >= 1 && <div className='cartHeading py-5 text-3xl ml-10 self-center font-bold  xl:text-5xl flex gap-3'>
+                    <h1 className='bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Your Orders</h1>
+                    <p>({products.length})</p>
+                    </div>
                 }
                 <div className='h-auto flex flex-col gap-15 p-5 mb-20 lg:gap-15 items-center'>
                     {

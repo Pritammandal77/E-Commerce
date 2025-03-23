@@ -15,12 +15,6 @@ export const allLaptopsSlice = createSlice({
         isloading: false,
         LaptopsData: [],
         isError: false,
-        fullLaptopsDataIndex: ''
-    },
-    reducers: {
-        setLaptopIndex: (state, action) => {
-            state.fullLaptopsDataIndex = action.payload
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -39,5 +33,4 @@ export const allLaptopsSlice = createSlice({
     },
 });
 
-export const { setLaptopIndex } = allLaptopsSlice.actions
 export default allLaptopsSlice.reducer;

@@ -11,12 +11,6 @@ export const allMobilesSlice = createSlice({
         isloading : false,
         mobilesData : null,
         isError : false,
-        fullMobiledataIndex : -1 ,
-    },
-    reducers: {
-        setIndex : (state,action) => {
-            state.fullMobiledataIndex = action.payload;
-         }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchMobiles.pending, (state, action) => {
@@ -33,5 +27,4 @@ export const allMobilesSlice = createSlice({
     },
 })
 
-export const {setIndex} = allMobilesSlice.actions;
 export default allMobilesSlice.reducer;

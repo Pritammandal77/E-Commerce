@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDefaultProduct, setSearchedDataIndex, sortByPriceInAscending, sortByPriceInDescending } from '../../features/SearchProducts/SearchProductSlice';
+import { setDefaultProduct, sortByPriceInAscending, sortByPriceInDescending } from '../../features/SearchProducts/SearchProductSlice';
 import { NavLink } from 'react-router-dom';
+import { setFullProductData } from '../../features/fullProductDetails/FullProductDetails';
 
 function SearchedProducts() {
 
@@ -10,10 +11,9 @@ function SearchedProducts() {
 
   const dispatch = useDispatch()
 
-  const handleSendFullDataIndex = (index) => {
-    dispatch(setSearchedDataIndex(index))
+  const handleSendDataToFullProductSlice = (data) => {
+    dispatch(setFullProductData(data))
   }
-
 
   const [selectedFilter, setSelectedFilter] = useState("");
 
@@ -58,10 +58,10 @@ function SearchedProducts() {
         {
           SearchProducts.products?.length >= 1 ? (
             SearchProducts.products.map((data) => (
-              <NavLink to='/fullsearchedproductdetails' key={data.id}>
+              <NavLink to='/fullProductDetails' key={data.id}>
                 <div className={`searchedProduct w-[90vw] lg:w-[70vw] h-auto flex flex-col rounded-2xl self-start
                 ${currentMode === "dark" ? 'bg-black text-white' : 'bg-white text-black'}`}
-                  onClick={() => handleSendFullDataIndex(SearchProducts.products.indexOf(data))}>
+                  onClick={() => handleSendDataToFullProductSlice(data)}>
                   <div className='h-auto w-[90vw] lg:h-50 lg:w-[100%] flex items-center ' >
                     <div className='w-[30vw] lg:w-[14vw] lg:h-50 bg-blue-200 flex justify-center rounded-l-2xl p-2'>
                       <img src={data.images[2]} alt="" className='h-[15vh] lg:h-auto w-auto max-w-[25vw] lg:w-auto lg:max-w-[12vw] rounded-2xl' />
