@@ -51,7 +51,6 @@ function BuyNow() {
         });
     }
 
-    console.log("status on buy now", orderStatus)
 
     return (
         <>
