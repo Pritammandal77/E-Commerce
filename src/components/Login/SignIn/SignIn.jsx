@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleSignInUser } from '../../../features/Auth/SignUp/SignUp';
+// import { handleSignInUser } from '../../../features/Auth/Auth';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../config/firebase';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../Loader/NormalLoader/Loader';
+import { handleSignInUser } from '../../../features/Auth/Auth';
 
 function SignIn() {
 

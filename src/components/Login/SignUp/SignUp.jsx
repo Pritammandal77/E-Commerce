@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { handleCreateUser, handleSignInWithGoogle } from '../../../features/Auth/SignUp/SignUp';
+import { handleCreateUser, handleSignInWithGoogle } from '../../../features/Auth/Auth';
 import { auth } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 

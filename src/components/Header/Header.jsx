@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchProducts, setQuery } from '../../features/SearchProducts/SearchProductSlice';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import { handleLogout } from '../../features/Auth/SignUp/SignUp';
+import { handleLogout } from '../../features/Auth/Auth';
 import { setMode } from '../../features/themeMode/themeMode';
 import Swal from 'sweetalert2'
 import { fetchCart } from '../../features/CartFeature/CartFeature';

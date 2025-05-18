@@ -3,12 +3,13 @@ import allMobilesReducer from '../features/Mobiles/MobileSlice';
 import allShirtsReducer from '../features/Shirts/ShirtSlice';
 import allLaptopsReducer  from '../features/Laptops/LaptopSlice';
 import searchProductReducer from '../features/SearchProducts/SearchProductSlice';
-import authSliceReducer from '../features/Auth/SignUp/SignUp';
+// import authSliceReducer from '../features/Auth/SignUp';
 import modeReducer  from '../features/themeMode/themeMode';
 import cartReducer  from '../features/CartFeature/CartFeature';
 import buyNowReducer  from '../features/BuyNow/BuyNow';
 import ordersReducer  from '../features/Orders/OrderSlice';
 import  fullProductreducer  from '../features/fullProductDetails/FullProductDetails';
+import { authSlice } from '../features/Auth/Auth';
 
 const store = configureStore({
     reducer: {
@@ -16,7 +17,7 @@ const store = configureStore({
         allShirts: allShirtsReducer,
         allLaptops: allLaptopsReducer,
         searchProduct: searchProductReducer,
-        auth: authSliceReducer,
+        auth: authSlice.reducer,
         mode: modeReducer,
         cart: cartReducer,
         buyNow: buyNowReducer,
