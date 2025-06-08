@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrderHistory } from '../../features/Orders/OrderSlice';
-import Loader from '../Loader/NormalLoader/Loader';
+import Loader from '../../components/Loader/NormalLoader/Loader';
 
 function OrderHistory() {
 
@@ -19,8 +19,8 @@ function OrderHistory() {
              ${currentMode == 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-[#dadada] text-black'}`}>
                 {
                     products?.length >= 1 && <div className='cartHeading py-5 text-3xl ml-10 self-center font-bold  xl:text-5xl flex gap-3 bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>
-                    <h1 className=''>Your Orders</h1>
-                    <p>({products.length})</p>
+                        <h1 className=''>Orders</h1>
+                        <p>({products.length})</p>
                     </div>
                 }
                 <div className='h-auto flex flex-col gap-15 p-5 mb-20 lg:gap-15 items-center'>
@@ -44,7 +44,7 @@ function OrderHistory() {
                                     <table className="table min-w-full text-left bg-green-300 border border-gray-300">
                                         <thead className="w-[80vw] bg-gray-200 text-black">
                                             <tr className='bg-blue-200'>
-                                                <th colSpan="2" className="p-3 text-xl font-semibold border-b border-black text-center">Details</th>
+                                                <th colSpan="2" className="p-3 text-xl font-semibold border-b border-black text-center">Order Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -84,7 +84,7 @@ function OrderHistory() {
                         )) : (
                             products?.length <= 0 ? (
                                 <div className='h-[100vh] flex items-center justify-center relative bottom-10'>
-                                    <h1 className=' text-3xl text-center lg:text-4xl font-bold'>You haven't ordered anything 💩</h1>
+                                    <h1 className=' text-3xl text-center lg:text-4xl font-bold'>You haven't ordered anything !!</h1>
                                 </div>
                             ) : (
                                 <Loader />

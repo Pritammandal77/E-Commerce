@@ -5,8 +5,8 @@ import { setPrice, setProductData } from '../../features/BuyNow/BuyNow';
 import { addToCart } from '../../features/CartFeature/CartFeature';
 import { toast } from 'react-toastify';
 import { auth } from '../../config/firebase';
-import Loader from '../Loader/NormalLoader/Loader';
-import NotFound from '../NotFound/NotFound';
+import Loader from '../../components/Loader/NormalLoader/Loader';
+import NotFound from '../../components/NotFound/NotFound';
 
 function FullProductDetails() {
     const { product } = useSelector((state) => state.fullProductsData)

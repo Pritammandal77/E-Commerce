@@ -4,19 +4,19 @@ import './App.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import Loader from './components/Loader/NormalLoader/Loader'
 import NotFound from './components/NotFound/NotFound'
-
-const AllProducts = React.lazy(() => import('./components/AllProducts/AllProducts'))
+ 
+const AllProducts = React.lazy(() => import('./Pages/AllProducts/AllProducts'))
 const Layout = React.lazy(() => import('./Layout'))
-const SearchedProducts = React.lazy(() => import('./components/SearchedProducts/SearchedProducts'))
-const BuyNow = React.lazy(() => import('./components/BuyNowForm/BuyNow'))
+const SearchedProducts = React.lazy(() => import('./Pages/SearchedProducts/SearchedProducts'))
+const BuyNow = React.lazy(() => import('./Pages/BuyNowForm/BuyNow'))
 const SignUp = React.lazy(() => import('./components/Login/SignUp/SignUp'))
 const SignIn = React.lazy(() => import('./components/Login/SignIn/SignIn'))
-const Cart = React.lazy(() => import('./components/Cart/Cart'))
-const OrderHistory = React.lazy(() => import('./components/OrderHistory/OrderHistory'))
-const AboutUs = React.lazy(() => import('./components/AboutUs/AboutUs'))
-const Categories = React.lazy(() => import('./components/ProductCategories/Categories'))
-const FullProductDetails = React.lazy(() => import('./components/FullProductDetails/FullProductDetails'))
-
+const Cart = React.lazy(() => import('./Pages/Cart/Cart'))
+const OrderHistory = React.lazy(() => import('./Pages/OrderHistory/OrderHistory'))
+const AboutUs = React.lazy(() => import('./Pages/AboutUs/AboutUs'))
+const Categories = React.lazy(() => import('./Pages/ProductCategories/Categories'))
+const FullProductDetails = React.lazy(() => import('./Pages/FullProductDetails/FullProductDetails'))
+ 
 function App() {
 
   const router = createBrowserRouter(

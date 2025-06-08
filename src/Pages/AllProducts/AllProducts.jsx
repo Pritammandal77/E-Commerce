@@ -5,8 +5,8 @@ import { fetchMobiles } from '../../features/Mobiles/MobileSlice';
 import { fetchShirts } from '../../features/Shirts/ShirtSlice';
 import { fetchLaptops } from '../../features/Laptops/LaptopSlice';
 import { NavLink } from 'react-router-dom';
-import ImageSlider from '../ImageSlider/ImageSlider';
-import Skeleton from '../Loader/Skeleton/Skeleton';
+import ImageSlider from '../../components/ImageSlider/ImageSlider';
+import Skeleton from '../../components/Loader/Skeleton/Skeleton';
 import './AllProducts.css'
 import { setFullProductData } from '../../features/fullProductDetails/FullProductDetails';
 

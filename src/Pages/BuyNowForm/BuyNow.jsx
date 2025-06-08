@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { addOrderInHistory, setIsItemOrdered } from '../../features/Orders/OrderSlice';
 
 import Swal from 'sweetalert2'
-import Loader from '../Loader/NormalLoader/Loader';
+import Loader from '../../components/Loader/NormalLoader/Loader';
 
 function BuyNow() {
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart, removeFromCart } from '../../features/CartFeature/CartFeature';
-import Loader from '../Loader/NormalLoader/Loader';
+import Loader from '../../components/Loader/NormalLoader/Loader';
 import { NavLink } from 'react-router-dom';
 import { setPrice, setProductData } from '../../features/BuyNow/BuyNow';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ function Cart() {
 
   const { items, status, error } = useSelector((state) => state.cart)
   const currentMode = useSelector((state) => state.mode.currentMode)
-
+  
   const dispatch = useDispatch()
 
   // console.log("length of cart", items.length)
@@ -87,7 +87,7 @@ function Cart() {
               (
                 items?.length < 1 ? (
                   <div className=' h-[100vh] flex justify-center items-center lg:mt-10'>
-                    <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty 💩</h1>
+                    <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty 😊!!</h1>
                   </div>
                 ) : (
                   <Loader />
