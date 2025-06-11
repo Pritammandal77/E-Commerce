@@ -9,6 +9,8 @@ import ImageSlider from '../../components/ImageSlider/ImageSlider';
 import Skeleton from '../../components/Loader/Skeleton/Skeleton';
 import './AllProducts.css'
 import { setFullProductData } from '../../features/fullProductDetails/FullProductDetails';
+import ProductCard from '../../components/Card/ProductCard';
+import Loader from '../../components/Loader/NormalLoader/Loader';
 
 function AllProducts() {
 
@@ -16,6 +18,7 @@ function AllProducts() {
     const laptopsData = useSelector((state) => state.allLaptops)
     const mobilesData = useSelector((state) => state.allMobiles)
     const currentMode = useSelector((state) => state.mode.currentMode)
+    const { isItemAdded, status } = useSelector((state) => state.cart)
 
     const dispatch = useDispatch()  // dispatch se ham value bhejte hain
 
@@ -66,25 +69,13 @@ function AllProducts() {
             <ImageSlider />
             <div className='flex flex-col py-10 gap-20 items-center '>
 
-                <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-8 items-center'>
                     <h1 className='heading self-center lg:self-start md:ml-8 text-3xl font md:text-5xl lg:ml-20 '>Premium Mobile Phones</h1>
-                    <div className="mainBody grid gap-10 grid-cols-2 mx-7 sm:grid-cols-3  md:mx-10  md:grid-cols-4 xl:grid-cols-5">
+                    <div className="mainBody w-full grid gap-y-2 gap-x-1 md:gap-5 xl:gap-10 grid-cols-2 sm:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 items-center">
                         {
                             mobilesData.mobilesData?.products ? (
                                 mobilesData.mobilesData.products.map((data) => (
-                                    <NavLink to='/fullProductDetails' key={data.id}>
-                                        <div className='products-div w-[40vw] h-auto md:h-[17vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 xl:h-65 flex flex-col rounded-2xl bg-gray-900 text-white'
-                                            onClick={() => sendDataToFullProductsDetails(data)}
-                                        >
-                                            <div className='h-auto flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60 bg-white'>
-                                                <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
-                                            </div>
-                                            <div className='p-3 h-auto lg:h-25 lg:p-5 flex flex-col justify-evenly'>
-                                                <h1 className='text-l lg:text-xl'>{data.title.slice(0, 15)}</h1>
-                                                <p>{Math.floor(data.price * 83)} ₹</p>
-                                            </div>
-                                        </div>
-                                    </NavLink>
+                                    <ProductCard key={data.id} fullProductData={data} image={data.images[0]} productTitle={data.title} price={Math.floor(data.price * 83)} discount={data.discountPercentage} onClick={() => sendDataToFullProductsDetails(data)} />
                                 ))
                             ) : (
                                 <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
@@ -97,25 +88,15 @@ function AllProducts() {
                 </div>
 
 
+
                 <div className='flex flex-col gap-8'>
                     <h1 className='heading self-center lg:self-start md:ml-8 text-3xl font md:text-5xl lg:ml-20'>Exclusive Premium Shirts</h1>
-                    <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-5">
+                    <div className="mainBody w-full grid gap-y-2 gap-x-1 md:gap-5 xl:gap-10 grid-cols-2 sm:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 items-center">
 
                         {
                             shirtsData.products ? (
                                 shirtsData.products.map((data) => (
-                                    <NavLink to='/fullProductDetails' key={data.id}>
-                                        <div key={data.id} className='products-div w-[40vw] h-auto md:h-[17vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 xl:h-65 flex flex-col rounded-2xl bg-gray-900 text-white'
-                                            onClick={() => sendDataToFullProductsDetails(data)}>
-                                            <div className='h-auto flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60 bg-white'>
-                                                <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
-                                            </div>
-                                            <div className='p-3 h-auto lg:h-25 lg:p-5 flex flex-col justify-evenly'>
-                                                <h1>{data.title.slice(0, 15)}</h1>
-                                                <p>{Math.floor(data.price * 83)} ₹</p>
-                                            </div>
-                                        </div>
-                                    </NavLink>
+                                    <ProductCard key={data.id} fullProductData={data} image={data.images[0]} productTitle={data.title} price={Math.floor(data.price * 83)} discount={data.discountPercentage} onClick={() => sendDataToFullProductsDetails(data)} />
                                 ))
                             ) : (
                                 <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
@@ -128,24 +109,25 @@ function AllProducts() {
 
                 <div className='flex flex-col gap-8'>
                     <h1 className='heading self-center lg:self-start md:ml-8 text-3xl font md:text-5xl lg:ml-20'>Exciting & Trending Laptops</h1>
-                    <div className="mainBody grid gap-10 grid-cols-2 sm:grid-cols-3 mx-7 md:mx-10  md:grid-cols-4 xl:grid-cols-5">
+                    <div className="mainBody w-full grid gap-y-2 gap-x-1 md:gap-5 xl:gap-10 grid-cols-2 sm:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 items-center">
                         {
                             laptopsData.LaptopsData.products ? (
                                 laptopsData.LaptopsData.products.map((data) => (
-                                    <NavLink to='/fullProductDetails' key={data.id}>
-                                        <div key={data.id} className='products-div w-[40vw] h-auto md:h-[17vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 xl:h-65 flex flex-col rounded-2xl bg-gray-900 text-white'
-                                            onClick={() => sendDataToFullProductsDetails(data)}
-                                        >
-                                            <div className='h-auto flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60 bg-white'>
-                                                <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
-                                            </div>
-                                            <div className="p-3 h-auto lg:h-25 lg:p-5 flex flex-col justify-evenly">
-                                                <h1>{data.title.slice(0, 13)}</h1>
-                                                <p>{Math.floor(data.price * 83)} ₹</p>
-                                            </div>
+                                    // <NavLink to='/fullProductDetails' key={data.id}>
+                                    //     <div key={data.id} className='products-div w-[40vw] h-auto md:h-[17vh] md:w-[20vw] lg:h-65 lg:w-55 xl:w-60 xl:h-65 flex flex-col rounded-2xl bg-gray-900 text-white'
+                                    //         onClick={() => sendDataToFullProductsDetails(data)}
+                                    //     >
+                                    //         <div className='h-auto flex justify-center rounded-t-2xl md:h-[10vh] lg:h-40 lg:w-55 xl:w-60 bg-white'>
+                                    //             <img src={data.images[0]} alt="" className='h-23 md:h[] lg:h-40 ' />
+                                    //         </div>
+                                    //         <div className="p-3 h-auto lg:h-25 lg:p-5 flex flex-col justify-evenly">
+                                    //             <h1>{data.title.slice(0, 13)}</h1>
+                                    //             <p>{Math.floor(data.price * 83)} ₹</p>
+                                    //         </div>
 
-                                        </div>
-                                    </NavLink>
+                                    //     </div>
+                                    // </NavLink>
+                                    <ProductCard key={data.id} fullProductData={data} image={data.images[0]} productTitle={data.title} price={Math.floor(data.price * 83)} discount={data.discountPercentage} onClick={() => sendDataToFullProductsDetails(data)} />
                                 ))
                             ) : (
                                 <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
@@ -217,8 +199,13 @@ function AllProducts() {
                     </div>
                 </div>
 
+            </div>
 
-
+            {/* when our addTocart is in loading state , then ahow this loader */}
+            <div className='fixed top-0 left-0'>
+                {
+                    status == "Pending" && <Loader />
+                }
             </div>
 
         </>

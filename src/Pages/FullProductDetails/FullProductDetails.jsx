@@ -86,7 +86,7 @@ function FullProductDetails() {
                                     <i className="fa-solid fa-cart-shopping"></i>Add To Cart
                                 </button>
 
-                                <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={() => buyNow(product.price, product)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
+                                <button className='bg-yellow-500 h-13 w-[45vw] lg:w-50 rounded-xl cursor-pointer text-xl font-bold flex justify-center items-center gap-3 hover:border-2 text-black' onClick={() => buyNow(Math.floor(product.price * 83), product)}> <i className="fa-solid fa-money-check"></i> Buy Now</button>
 
                             </div>
                         </div>

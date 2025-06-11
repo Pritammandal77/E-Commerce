@@ -19,8 +19,7 @@ function BuyNow() {
     const [shippingAddress, setShippingAddress] = useState('')
     const [quantity, setQuantity] = useState('1')
 
-    let productsPrice = Math.floor(price * 83)
-    let priceWithQuantity = productsPrice * quantity
+    let priceWithQuantity = price * quantity
     let priceAfterTaxes = priceWithQuantity + platFormFee + extraFees
 
     const dispatch = useDispatch()
