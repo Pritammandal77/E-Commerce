@@ -70,12 +70,12 @@ function Cart() {
 
                   <div className="relative right-2 lg:right-5 font-medium lg:ml-10 flex flex-col gap-2 text-black">
 
-                    <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
+                    <button className='w-[25vw] bg-yellow-500 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
                       onClick={() => RemoveItemFromCart(data)}>
                       <i className="fa-solid fa-trash"></i> Remove </button>
 
                     <NavLink to='/buynow'>
-                      <button className='w-[25vw] bg-green-400 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
+                      <button className='w-[25vw] bg-yellow-500 h-10 rounded-[7px] lg:w-[10vw] lg:font-bold cursor-pointer border-2 border-transparent hover:border-black'
                         onClick={() => buyNowItem(data.product.price, data.product)}>
                         <i className="fa-solid fa-money-check"></i>  Buy Now</button>
                     </NavLink>

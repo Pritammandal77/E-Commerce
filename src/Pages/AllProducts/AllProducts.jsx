@@ -182,7 +182,7 @@ function AllProducts() {
                         <div className={`reviewsContainer md:w-[30%] lg:w-[25%] md:h-[27vh] lg:h-[36vh] xl:h-[27vh] p-5 flex flex-col justify-evenly gap-3
                                    ${currentMode === 'dark' ? 'text-white' : ' text-black'}`}>
                             <div className='flex items-center gap-3'>
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGojvRu6zk7vUycPeQQOYBlE2B7u8hEWlyQA&s" alt=""
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVILWcZ-pGzBgJWDlYp2SjTIPdGr31AV80ww&s" alt=""
                                     className='w-13 rounded-[50%]' />
                                 <div>
                                     <p className='text-[19px]'>Diya Singh</p>

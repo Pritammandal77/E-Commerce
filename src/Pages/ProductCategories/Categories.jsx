@@ -149,8 +149,8 @@ function Categories() {
                 <div className='grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 items-center gap-5 xl:gap-10'>
                      {
                          productCategories.map((data) => (
-                             <div className={`cards h-auto w-[40vw] md:w-[20vw]  cursor-pointer xl:w-55 flex flex-col items-center gap-3 xl:gap-4 rounded-xl 
-                             ${currentMode === "dark" ? 'bg-black text-white' : 'bg-gray-900 text-white'}`}
+                             <div className={`cards h-auto w-[40vw] md:w-[20vw] border-2 border-gray-400  cursor-pointer xl:w-55 flex flex-col items-center gap-3 xl:gap-4 rounded-xl 
+                             ${currentMode === "dark" ? 'bg-black text-white' : 'bg-white text-black'}`}
                              onClick={() => getProductsByCategory(data.query)} key={data.key}>
                              <img src={data.imgUrl} alt="" className='h-30 w-[40vw] md:w-[20vw] xl:w-55 lg:h-40 rounded-t-xl ' />
                              <h1 className='h-10 xl:h-13 font-bold text-l md:text-xl xl:text-[21px]'>{data.name}</h1>
