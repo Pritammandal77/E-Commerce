@@ -3,7 +3,7 @@ import React from 'react';
 function Skeleton() {
     return (
         <>
-            <div className='h-auto w-[90vw] md:w-[90vw] md:ml-0 lg:ml-0 lg:w-[90vw] bg-neural-200 flex justify-center items-center'>
+            <div className='h-auto w-[100vw] md:w-[100vw] md:ml-0 lg:ml-0 lg:w-[90vw] bg-neural-200 flex justify-center items-center'>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5  text-white lg:w-[90vw]  animate-pulse rounded-xl p-4 gap-20 w-[90vw]" >
 
                     <div className=''>

@@ -78,7 +78,7 @@ function AllProducts() {
                                     <ProductCard key={data.id} fullProductData={data} image={data.images[0]} productTitle={data.title} price={Math.floor(data.price * 83)} discount={data.discountPercentage} onClick={() => sendDataToFullProductsDetails(data)} />
                                 ))
                             ) : (
-                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
+                                <h1 className='error w-[100%]  lg:mx-10'>
                                     <Skeleton />
                                     <Skeleton />
                                 </h1>
@@ -99,7 +99,7 @@ function AllProducts() {
                                     <ProductCard key={data.id} fullProductData={data} image={data.images[0]} productTitle={data.title} price={Math.floor(data.price * 83)} discount={data.discountPercentage} onClick={() => sendDataToFullProductsDetails(data)} />
                                 ))
                             ) : (
-                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw]  lg:mx-10'>
+                                <h1 className='error w-[90vw] md:w-[90vw] lg:w-[90vw] lg:mx-10'>
                                     <Skeleton />
                                 </h1>
                             )
