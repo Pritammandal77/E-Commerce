@@ -47,7 +47,7 @@ function Cart() {
       <div className={`cartBody min-h-[100vh] h-auto box-border flex flex-col 
            ${currentMode === 'dark' ? 'bg-[#1d1d1d] text-white' : 'bg-[#dadada] text-black'}`}>
         {
-          items?.length >= 1 && <div className='cartHeading py-5 mt-14 text-3xl ml-10 self-center font-bold  xl:text-5xl flex gap-3 bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>
+          items?.length >= 1 && <div className='cartHeading py-10 mt-14 text-3xl ml-10 self-center font-bold  xl:text-4xl flex gap-3'>
             <h1 className=''>Welcome to Cart</h1>
             <p>({items.length})</p>
           </div>
@@ -87,7 +87,7 @@ function Cart() {
               (
                 items?.length < 1 ? (
                   <div className=' h-[100vh] flex justify-center items-center lg:mt-10'>
-                    <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty 😊!!</h1>
+                    <h1 className='text-3xl lg:text-4xl font-bold'>Your cart is empty !!</h1>
                   </div>
                 ) : (
                   <Loader />

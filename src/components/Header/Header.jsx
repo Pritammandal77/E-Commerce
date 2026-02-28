@@ -106,7 +106,7 @@ function Header() {
     useEffect(() => {
         setLengthOfCart(items.length);
         setLengthOfOrders(products.length)
-    }, [items, products]); 
+    }, [items, products]);
 
     return (
         <>
@@ -150,18 +150,16 @@ function Header() {
                                     </li>
                                     <li onClick={HandleCloseHamburger} className='self-center flex flex-col justify-center items-center'>
                                         {
-                                            isLoggedIn ? (
-                                                <h1 className='text-xl text-white'>Welcome</h1>
-                                            ) : (
+                                            !isLoggedIn &&
                                                 <NavLink to='/signup'>
                                                     <button className='bg-green-400 h-10 w-30 text-black rounded-2xl cursor-pointer text-xl'>Login</button>
                                                 </NavLink>
-                                            )
+                                            
                                         }
                                         <p className='self-center text-white text-xl'>
                                             {userName ? (userName) : ''}
                                         </p>
-                                        <p className='text-white self-center text-[15px] md:text-xl' >
+                                        <p className='text-white self-center text-[15px] md:text-l' >
                                             {userEmail ? (userEmail) : ('')}
                                         </p>
                                     </li>

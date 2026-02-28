@@ -143,7 +143,7 @@ function Categories() {
             <div className={`mt-15 min-h-screen flex flex-col items-center gap-5 lg:gap-10 px-5 pb-20
              ${currentMode === "dark" ? 'bg-[#1e1e1e] text-white' : 'bg-[#dadada] text-black'}`}>
                 <div>
-                    <h1 className='font-bold text-4xl p-3 md:text-5xl lg:text-6xl bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>Categories</h1>
+                    <h1 className='font-bold text-4xl py-5 md:text-5xl lg:text-5xl '>Categories</h1>
                 </div>
 
                 <div className='grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 items-center gap-5 xl:gap-10'>
